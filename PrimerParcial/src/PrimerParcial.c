@@ -34,6 +34,7 @@ int main(void)
 							"\n3-Dar de baja un cliente"
 							"\n4-Dar de alta una publicacion"
 							"\n5-Pausar una publicacion"
+							"\n-Reanudar una publicacion"
 							"\n7-imprimir lista "
 							"\n8-salir\n","Error,opcion invalida\n",&opcion, 20, 1, 8)== 0)
 				{
@@ -53,6 +54,7 @@ int main(void)
 							if(	sCliente_modificar(arrayCliente, CANTIDAD_CLIENTES)==0)
 							{
 								printf("\nModificacion realizada con exito");
+
 							}
 							break;
 						case 3:
@@ -64,11 +66,16 @@ int main(void)
 						case 4:
 							if(sPublicacion_altaPublicacion(arrayPublicacion, CANTIDAD_PUBLICACIONES,arrayCliente, CANTIDAD_CLIENTES) ==0)
 							{
-								printf("\nPublicacion realizada con exito");
+								printf("\nPublicacion realizada con exito\n");
 							}
 							break;
+						case 5:
+							if(sPublicacion_pausarPublicacion(arrayPublicacion, CANTIDAD_PUBLICACIONES,arrayCliente, CANTIDAD_CLIENTES) ==0)
+							{
+								printf("\n Publicacion suspendida exitosamente\n");
 
-
+							}
+							break;
 						case 7:
 							sCliente_imprimir(arrayCliente, CANTIDAD_CLIENTES);
 
