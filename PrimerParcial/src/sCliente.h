@@ -9,6 +9,9 @@
 #define SCLIENTE_H_
 
 #define SIZECLIENTE 20
+#define FALSE 0
+#define TRUE 1
+
 typedef struct
 {
 	int idCliente;

@@ -10,10 +10,6 @@
 #include "sCliente.h"
 #include "utn.h"
 
-#define FALSE 0
-#define TRUE 1
-
-
 /**
  * \brief Genera un nuevo id y lo incrementa cada vez que sea necesario
  * \return el id a utilizar

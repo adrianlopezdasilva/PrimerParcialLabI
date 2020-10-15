@@ -16,10 +16,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "sPublicacion.h"
+#include "sCliente.h"
 #include "utn.h"
-
-#define FALSE 0
-#define TRUE 1
 
 
 /**
@@ -114,35 +112,43 @@ int sPublicacion_buscarLibreRef (sPublicacion *pArrayPublicacion, int limite, in
  * \return (-1) Error / (0) Ok
  *
  */
-int sPublicacion_altaPublicacion(sPublicacion *pArrayPublicacion, int limite, )
+int sPublicacion_altaPublicacion(sPublicacion *pArrayPublicacion, int limite, sCliente *pArrayCliente, int limiteCliente )
 {
 	int retorno = -1;
+	int idABuscar;
 	int indice;
 	sPublicacion bufferPublicacion;
 
-	if(pArrayPublicacion != NULL && limite > 0)
+	if(pArrayPublicacion != NULL && limite > 0 &&
+	   pArrayCliente != NULL && limiteCliente >0)
 	{
 		{
-			if(sPublicacion_buscarLibreRef(pArrayPublicacion, limite, &indice)== 0)
+			sCliente_imprimir(pArrayCliente, limiteCliente);
+			if(utn_getNumero("\nA que cliente le quiere agregar una publicacion?:\n", "\nError", &idABuscar, 2, 1 ,1000)== 0 &&
+			   sCliente_buscarIndicePorId(pArrayCliente, limiteCliente, idABuscar, &indice) == 0)
+			{
+				if (utn_getNumero("\nIngrese el numero del rubro:\n"
+								  "OPCION 1: ADMINISTRACION\n"
+								  "OPCION 2: ATENCION AL CLIENTE\n"
+								  "OPCION 3: OPERARIO\n" , "\nError",&bufferPublicacion.numeroRubro, 2, 1, 1000)==0 &&
+								  utn_getString("Texto del aviso: ", "\nError", bufferPublicacion.textoAviso, 2,SIZEPUBLICACION)==0 )
 				{
-					if (utn_getNombre("Nombre?: ", "\nError",bufferPublicacion.nombre, 2,SIZEPUBLICACION)==0 &&
-						utn_getNombre("Texto del aviso: ", "\nError", bufferPublicacion.textoAviso, 2,SIZEPUBLICACION)==0 &&
-						utn_getString("Cuit?: ", "\nError", bufferPublicacion.cuit, 2, SIZEPUBLICACION)==0 )
-					{
-						pArrayPublicacion[indice] = bufferPublicacion;
-						pArrayPublicacion[indice].idPublicacion =  sPlubicacion_generarNuevoId();
-						pArrayPublicacion[indice].isEmpty = FALSE;
-					}
-					else
-					{
-						printf("Error");
-					}
-
+					pArrayPublicacion[indice] = bufferPublicacion;
+					pArrayPublicacion[indice].idPublicacion =  sPlubicacion_generarNuevoId();
+					pArrayPublicacion[indice].isEmpty = FALSE;
+					pArrayPublicacion[indice].estadoPublicacion = ACTIVO;
+					printf("El ID de esta publicacion es: %d", pArrayPublicacion[indice].idPublicacion);
 				}
 				else
 				{
-					printf("No se encontro un lugar libre");
+					printf("Error");
 				}
+			}
+			else
+			{
+				printf("Ese id no esta actualmente en uso");
+			}
+
 			retorno = 0;
 		}
 	}
@@ -156,7 +162,7 @@ int sPublicacion_altaPublicacion(sPublicacion *pArrayPublicacion, int limite, )
  * \return (-1) Error / (0) Ok
  *
  */
-int sPublicacion_imprimir (sPublicacion *pArrayPublicacion, int limite)
+/*int sPublicacion_imprimir (sPublicacion *pArrayPublicacion, int limite)
 {
 	int retorno = -1;
 
@@ -173,7 +179,7 @@ int sPublicacion_imprimir (sPublicacion *pArrayPublicacion, int limite)
 		retorno = 0;
 	}
 	return retorno;
-}
+}*/
 
 /**
  * \brief Da de baja un Publicacion
@@ -182,7 +188,7 @@ int sPublicacion_imprimir (sPublicacion *pArrayPublicacion, int limite)
  * \return (-1) Error / (0) Ok
  *
  */
-int sPublicacion_bajaPublicacion(sPublicacion *pArrayPublicacion, int limite)
+/*int sPublicacion_bajaPublicacion(sPublicacion *pArrayPublicacion, int limite)
 {
 	int retorno = -1;
 	int idABorrar;
@@ -190,7 +196,7 @@ int sPublicacion_bajaPublicacion(sPublicacion *pArrayPublicacion, int limite)
 
 	if (pArrayPublicacion != NULL && limite>0)
 	{
-		sPublicacion_imprimir(pArrayPublicacion, limite);
+		sCl(pArrayPublicacion, limite);
 		if(utn_getNumero("\nIngrese el id del Publicacion a borrar: \n","Error",&idABorrar,6,1,9999)==0)
 		{
 			// busco la posicion a borrar
@@ -203,7 +209,7 @@ int sPublicacion_bajaPublicacion(sPublicacion *pArrayPublicacion, int limite)
 		retorno = 0;
 	}
 	return retorno;
-}
+}*/
 /**
  * \brief Modifica un Publicacion ya existente
  * \param *pArrayPublicacion El array a utilizar
@@ -211,7 +217,7 @@ int sPublicacion_bajaPublicacion(sPublicacion *pArrayPublicacion, int limite)
  * \return (-1) Error / (0) Ok
  *
  */
-int sPublicacion_modificar (sPublicacion *pArrayPublicacion, int limite)
+/*int sPublicacion_modificar (sPublicacion *pArrayPublicacion, int limite)
 {
 	int retorno = -1;
 	int idBuscar;
@@ -243,7 +249,7 @@ int sPublicacion_modificar (sPublicacion *pArrayPublicacion, int limite)
 		}
 	}
 	return retorno;
-}
+}*/
 /**
  * \brief Busca el indice de un Publicacion segun su id
  * \param *pArrayPublicacion El array a utilizar
