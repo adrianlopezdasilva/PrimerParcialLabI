@@ -62,8 +62,8 @@ int sCliente_buscarLibre(sCliente *pArrayCliente, int limite)
 		{
 			if(pArrayCliente[i].isEmpty == TRUE)
 			{
-				break;
 				retorno = i;
+				break;
 			}
 		}
 	}
@@ -110,29 +110,27 @@ int sCliente_altaCliente(sCliente *pArrayCliente, int limite)
 
 	if(pArrayCliente != NULL && limite > 0)
 	{
-		{
-			if(sCliente_buscarLibreRef(pArrayCliente, limite, &indice)== 0)
+		if(sCliente_buscarLibreRef(pArrayCliente, limite, &indice)== 0)
+			{
+				if (utn_getNombre("Nombre?: ", "\nError",bufferCliente.nombre, 2,SIZECLIENTE)==0 &&
+					utn_getNombre("Apellido?: ", "\nError", bufferCliente.apellido, 2,SIZECLIENTE)==0 &&
+					utn_getString("Cuit?: ", "\nError", bufferCliente.cuit, 2, SIZECLIENTE)==0 )
 				{
-					if (utn_getNombre("Nombre?: ", "\nError",bufferCliente.nombre, 2,SIZECLIENTE)==0 &&
-						utn_getNombre("Apellido?: ", "\nError", bufferCliente.apellido, 2,SIZECLIENTE)==0 &&
-						utn_getString("Cuit?: ", "\nError", bufferCliente.cuit, 2, SIZECLIENTE)==0 )
-					{
-						pArrayCliente[indice] = bufferCliente;
-						pArrayCliente[indice].idCliente =  sCliente_generarNuevoId();
-						pArrayCliente[indice].isEmpty = FALSE;
-					}
-					else
-					{
-						printf("Error");
-					}
-
+					pArrayCliente[indice] = bufferCliente;
+					pArrayCliente[indice].idCliente =  sCliente_generarNuevoId();
+					pArrayCliente[indice].isEmpty = FALSE;
 				}
 				else
 				{
-					printf("No se encontro un lugar libre");
+					printf("Error");
 				}
+
+				}
+			else
+			{
+				printf("No se encontro un lugar libre");
+			}
 			retorno = 0;
-		}
 	}
 
 	return retorno;
@@ -266,3 +264,25 @@ int sCliente_buscarIndicePorId (sCliente * pArrayCliente, int limite, int idBusc
      return retorno;
 }
 
+
+int cliente_altaForzada(sCliente* pArrayCliente, int limite , char * nombre, char * apellido, char * cuit)
+{
+
+    int retorno = -1;
+    int indice;
+    if (sCliente_buscarLibre(pArrayCliente, limite) >=0)
+    {
+    	indice = sCliente_buscarLibre(pArrayCliente, limite);
+        strncpy(pArrayCliente[indice].nombre,nombre,10);
+        strncpy(pArrayCliente[indice].apellido,apellido,10);
+        strncpy(pArrayCliente[indice].cuit,cuit,10);
+        pArrayCliente[indice].idCliente = sCliente_generarNuevoId();
+        pArrayCliente[indice].isEmpty = FALSE;
+        retorno = 0;
+    }
+    else
+    {
+        printf("No queda un lugar libre");
+    }
+    return retorno;
+}

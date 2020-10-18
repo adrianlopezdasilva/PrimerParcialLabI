@@ -15,8 +15,8 @@
 #include "sPublicacion.h"
 #include "sCliente.h"
 
-#define CANTIDAD_CLIENTES 4
-#define CANTIDAD_PUBLICACIONES 6
+#define CANTIDAD_CLIENTES 10
+#define CANTIDAD_PUBLICACIONES 20
 
 int main(void)
 {
@@ -26,7 +26,24 @@ int main(void)
 	int opcion;
 
 	sCliente_init(arrayCliente,CANTIDAD_CLIENTES );
-	sPublicacion_init( arrayPublicacion,  CANTIDAD_PUBLICACIONES);
+	sPublicacion_init( arrayPublicacion, CANTIDAD_PUBLICACIONES);
+
+	cliente_altaForzada(arrayCliente, CANTIDAD_CLIENTES,"Roberto","Perez","203943849");
+	cliente_altaForzada(arrayCliente, CANTIDAD_CLIENTES,"aaaaa","bbbbb","203943848");
+	cliente_altaForzada(arrayCliente, CANTIDAD_CLIENTES,"ccccc","ccccc","203943845");
+	cliente_altaForzada(arrayCliente, CANTIDAD_CLIENTES,"dddddd","ddddd","203943846");
+	cliente_altaForzada(arrayCliente, CANTIDAD_CLIENTES,"eeeeee","eeeee","2203943843");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,3,3,"Se busca");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,3,2,"Se busca");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,1,1,"Se busca");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,3,3,"Se necesita");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,4,"Se necesita");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,3,2,"Se necesita");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,3,1,"Urgente");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,3,"Urgente ");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,2,"Urgente");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,2,"Con o sin experiencia");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,3,3,"Con o sin experiencias");
 
 		do
 		{if(utn_getNumero("\n\nMenu de opciones"
@@ -37,18 +54,21 @@ int main(void)
 							"\n5-Pausar una publicacion"
 							"\n6-Reanudar una publicacion"
 							"\n7-imprimir lista "
-							"\n8-salir\n","Error,opcion invalida\n",&opcion, 20, 1, 8)== 0)
+							"\n8-Informes\n"
+							"\n9-Salir","Error,opcion invalida\n",&opcion, 20, 1, 8)== 0)
 				{
 					switch(opcion)
 					{
 						case 1:
-							if(sCliente_altaCliente(arrayCliente, CANTIDAD_CLIENTES)==0)
+							if(sCliente_buscarLibre(arrayCliente, CANTIDAD_CLIENTES) != -1)
 							{
-								printf("\nCarga realizada correctamente\n");
+								sCliente_altaCliente(arrayCliente, CANTIDAD_CLIENTES);
+								printf("\nCarga realizada con exito");
+
 							}
 							else
 							{
-								printf("No hay mas lugar\n");
+								printf("\nNo hay mas lugar");
 							}
 							break;
 						case 2:
@@ -71,11 +91,12 @@ int main(void)
 							}
 							break;
 						case 5:
-							if(sPublicacion_pausarPublicacion(arrayPublicacion, CANTIDAD_PUBLICACIONES,arrayCliente, CANTIDAD_CLIENTES) ==0)
+							if(sPublicacion_pausarPublicacion(arrayPublicacion, CANTIDAD_PUBLICACIONES,arrayCliente, CANTIDAD_CLIENTES) !=0)
 							{
-								printf("\n Publicacion suspendida exitosamente\n");
-
+								printf("No existe una publicacion con ese ID.");
 							}
+							break;
+						case 6:
 							break;
 						case 7:
 							if(sPublicacion_imprimirClientesYPublicaciones(arrayPublicacion, CANTIDAD_PUBLICACIONES,arrayCliente, CANTIDAD_CLIENTES) !=0)
@@ -83,10 +104,11 @@ int main(void)
 								printf("No hay clientes para mostrar");
 							}
 							break;
+						case 8:
+							break;
+
 					}
 				}
-		}while(opcion !=8);
+		}while(opcion !=9);
 
 }
-
-

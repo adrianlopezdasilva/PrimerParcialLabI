@@ -29,6 +29,7 @@ int sCliente_imprimir (sCliente *pArrayCliente, int limite);
 int sCliente_bajaCliente(sCliente *pArrayCliente, int limite);
 int sCliente_modificar (sCliente *pArrayCliente, int limite);
 int sCliente_buscarIndicePorId (sCliente * pArrayCliente, int limite, int idBuscar,int * pIndice);
+int cliente_altaForzada(sCliente* pArrayCliente, int limite , char * nombre, char * apellido, char * cuit);
 
 
 

@@ -37,15 +37,14 @@ static int sPlubicacion_generarNuevoId (void)
 
 /**
  * \brief Inicializa la totalidad del array a utilizar como vacios
- * \param *pArrayPublicacion El array a utilizar
- * \param int limite Acota el numero de iteraciones
+ * \param *pArrayPublicacion Puntero al array de publicaciones
+ * \param  limite Limite del array
  * \return (-1) Error / (0) Ok
  *
  */
 int sPublicacion_init(sPublicacion *pArrayPublicacion, int limite)
 {
 	int retorno = -1;
-	{
 		if(pArrayPublicacion != NULL && limite > 0 )
 		{
 			for(int i = 0; i < limite; i++)
@@ -55,14 +54,13 @@ int sPublicacion_init(sPublicacion *pArrayPublicacion, int limite)
 			}
 			retorno = 0;
 		}
-	}
 	return retorno;
 }
 
 /**
- * \brief Inicializa El array de Publicacions en
- * \param *pArrayPublicacion El array a utilizar
- * \param int limite Acota el numero de iteraciones
+ * \brief Busca un lugar libre en el array
+ * \param *pArrayPublicacion Puntero al array de publicaciones
+ * \param limite Limite del array
  * \return (-1) Error / (0) Ok
  */
 int sPublicacion_buscarLibre(sPublicacion *pArrayPublicacion, int limite)
@@ -75,8 +73,9 @@ int sPublicacion_buscarLibre(sPublicacion *pArrayPublicacion, int limite)
 		{
 			if(pArrayPublicacion[i].isEmpty == TRUE)
 			{
-				break;
 				retorno = i;
+				break;
+
 			}
 		}
 	}
@@ -125,15 +124,12 @@ int sPublicacion_altaPublicacion(sPublicacion *pArrayPublicacion, int limite, sC
 	if(pArrayPublicacion != NULL && limite > 0 &&
 	   pArrayCliente != NULL && limiteCliente >0)
 	{
-		{
-			sCliente_imprimir(pArrayCliente, limiteCliente);
-			if(utn_getNumero("\nA que cliente le quiere agregar una publicacion?:\n", "\nError", &idABuscar, 2, 0 ,1000)== 0 &&
-			   sCliente_buscarIndicePorId(pArrayCliente, limiteCliente, idABuscar, &indice) == 0)
+		sCliente_imprimir(pArrayCliente, limiteCliente);
+		if(utn_getNumero("\nA que cliente le quiere agregar una publicacion?:\n", "\nError", &idABuscar, 2, 0 ,1000)== 0 &&
+		   sCliente_buscarIndicePorId(pArrayCliente, limiteCliente, idABuscar, &indice) == 0)
 			{
-				if (utn_getNumero("\nIngrese el numero del rubro:\n"
-								  "OPCION 1: ADMINISTRACION\n"
-								  "OPCION 2: ATENCION AL CLIENTE\n"
-								  "OPCION 3: OPERARIO\n" , "\nError",&bufferPublicacion.numeroRubro, 2, 1, 3)==0 &&
+				if (utn_getNumero("\nIngrese el numero del rubro:\nOPCION 1: ADMINISTRACION\nOPCION 2: ATENCION AL CLIENTE\\nOPCION 3: OPERARIO\n"
+									,"\nError",&bufferPublicacion.numeroRubro, 2, 1, 3)==0 &&
 					utn_getString("Texto del aviso: ", "\nError", bufferPublicacion.textoAviso, 2,SIZEPUBLICACION)==0 )
 				{
 					pArrayPublicacion[indice] = bufferPublicacion;
@@ -142,6 +138,7 @@ int sPublicacion_altaPublicacion(sPublicacion *pArrayPublicacion, int limite, sC
 					pArrayPublicacion[indice].estadoPublicacion = ACTIVO;
 					pArrayPublicacion[indice].idCliente = indice+1;
 					printf("\nEl ID de esta publicacion es: %d\n", pArrayPublicacion[indice].idPublicacion);
+					retorno = 0;
 				}
 				else
 				{
@@ -152,10 +149,7 @@ int sPublicacion_altaPublicacion(sPublicacion *pArrayPublicacion, int limite, sC
 			{
 				printf("Ese id no esta actualmente en uso");
 			}
-
-			retorno = 0;
 		}
-	}
 
 	return retorno;
 }
@@ -400,7 +394,7 @@ int sPublicacion_cantidaPublicaciones(sPublicacion* pArrayPublicacion,int limite
 	return retorno;
 }
 
-int sPublicacion_imprimirClientesYPublicaciones(sPublicacion *pArrayPublicacion,int limite, sCliente *pArrayCliente,int limiteCliente)
+int sPublicacion_imprimirClientesYPublicaciones(sPublicacion* pArrayPublicacion,int limite, sCliente *pArrayCliente,int limiteCliente)
 {
 	int retorno=-1;
 	int cantidadPublicaciones;
@@ -422,4 +416,21 @@ int sPublicacion_imprimirClientesYPublicaciones(sPublicacion *pArrayPublicacion,
 	return retorno;
 }
 
+int publicacion_altaForzada(sPublicacion* pArrayPublicacion, int limite ,int idCliente,int rubro,  char* publicacion)
+{
+    int retorno = -1;
+    int indice;
+    if (sPublicacion_buscarLibre(pArrayPublicacion, limite) >=0)
+    {
+    	indice = sPublicacion_buscarLibre(pArrayPublicacion, limite);
+        strncpy(pArrayPublicacion[indice].textoAviso,publicacion,64);
+        pArrayPublicacion[indice].idCliente = idCliente;
+        pArrayPublicacion[indice].numeroRubro=rubro;
+        pArrayPublicacion[indice].estadoPublicacion=ACTIVO;
+        pArrayPublicacion[indice].idPublicacion = sPlubicacion_generarNuevoId();
+        pArrayPublicacion[indice].isEmpty = FALSE;
+        retorno=0;
+    }
+    return retorno;
+}
 

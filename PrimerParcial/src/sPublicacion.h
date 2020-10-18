@@ -36,4 +36,5 @@ int sPublicacion_buscarIndicePorId (sPublicacion * pArrayPublicacion, int limite
 int sPublicacion_ImprimirPublicacionSegunCliente(sPublicacion *pArrayPublicacion, int limite, int idCliente);
 int sPublicacion_cantidaPublicaciones(sPublicacion* pArrayPublicacion,int limite,int id,int *pResultado);
 int sPublicacion_imprimirClientesYPublicaciones(sPublicacion *pArrayPublicacion,int limite, sCliente *pArrayCliente,int limiteCliente);
+int publicacion_altaForzada(sPublicacion* pArrayPublicacion, int limite ,int idCliente,int rubro,  char* publicacion);
 #endif /* SPUBLICACION_H_ */
