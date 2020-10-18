@@ -127,24 +127,25 @@ int sPublicacion_altaPublicacion(sPublicacion *pArrayPublicacion, int limite, sC
 	{
 		{
 			sCliente_imprimir(pArrayCliente, limiteCliente);
-			if(utn_getNumero("\nA que cliente le quiere agregar una publicacion?:\n", "\nError", &idABuscar, 2, 1 ,1000)== 0 &&
+			if(utn_getNumero("\nA que cliente le quiere agregar una publicacion?:\n", "\nError", &idABuscar, 2, 0 ,1000)== 0 &&
 			   sCliente_buscarIndicePorId(pArrayCliente, limiteCliente, idABuscar, &indice) == 0)
 			{
 				if (utn_getNumero("\nIngrese el numero del rubro:\n"
 								  "OPCION 1: ADMINISTRACION\n"
 								  "OPCION 2: ATENCION AL CLIENTE\n"
-								  "OPCION 3: OPERARIO\n" , "\nError",&bufferPublicacion.numeroRubro, 2, 1, 1000)==0 &&
-								  utn_getString("Texto del aviso: ", "\nError", bufferPublicacion.textoAviso, 2,SIZEPUBLICACION)==0 )
+								  "OPCION 3: OPERARIO\n" , "\nError",&bufferPublicacion.numeroRubro, 2, 1, 3)==0 &&
+					utn_getString("Texto del aviso: ", "\nError", bufferPublicacion.textoAviso, 2,SIZEPUBLICACION)==0 )
 				{
 					pArrayPublicacion[indice] = bufferPublicacion;
 					pArrayPublicacion[indice].idPublicacion =  sPlubicacion_generarNuevoId();
 					pArrayPublicacion[indice].isEmpty = FALSE;
 					pArrayPublicacion[indice].estadoPublicacion = ACTIVO;
-					printf("El ID de esta publicacion es: %d", pArrayPublicacion[indice].idPublicacion);
+					pArrayPublicacion[indice].idCliente = indice+1;
+					printf("\nEl ID de esta publicacion es: %d\n", pArrayPublicacion[indice].idPublicacion);
 				}
 				else
 				{
-					printf("Error");
+					printf("\nError");
 				}
 			}
 			else
@@ -168,20 +169,27 @@ int sPublicacion_altaPublicacion(sPublicacion *pArrayPublicacion, int limite, sC
 int sPublicacion_imprimir (sPublicacion *pArrayPublicacion, int limite)
 {
 	int retorno = -1;
+	int flagActivos = 0;
 
 	if(pArrayPublicacion !=NULL && limite > 0)
 	{
+		printf("\n TEXTO AVISO       NUMERO DE RUBRO       ESTADO      ID CLIENTE");
 		for(int i = 0; i < limite; i++)
 		{
-			if(pArrayPublicacion[i].isEmpty == FALSE)
+			if(pArrayPublicacion[i].isEmpty == FALSE && pArrayPublicacion[i].estadoPublicacion == ACTIVO )
 			{
-				printf("\n TEXTO AVISO       NUMERO DE RUBRO       ESTADO      ID CLIENTE");
-				printf("\n %s         %d         %d       %d",
+				printf("\n %s                 %d                %d             %d",
 						pArrayPublicacion[i].textoAviso, pArrayPublicacion[i].numeroRubro,
 						pArrayPublicacion[i].estadoPublicacion,pArrayPublicacion[i].idCliente);
+				flagActivos = 1;
+				retorno = 0;
 			}
 		}
-		retorno = 0;
+		if (flagActivos == 0)
+		{
+			printf("No hay ninguna publicacion activa");
+		}
+
 	}
 	return retorno;
 }
@@ -205,7 +213,7 @@ int sPublicacion_pausarPublicacion(sPublicacion *pArrayPublicacion, int limite, 
 	if (pArrayPublicacion != NULL && limite>0)
 	{
 		sPublicacion_imprimir(pArrayPublicacion, limite);
-		if(utn_getNumero("\nIngrese el id del Publicacion a pausar:\n","Error",&indiceABuscar,3,1,9999)==0 &&
+		if(utn_getNumero("\nIngrese el id del Publicacion a pausar:\n","Error",&indiceABuscar,3,0,9999)==0 &&
 		   sPublicacion_buscarIndicePorId(pArrayPublicacion,limite,indiceABuscar,&idAPausar)==0 &&
 		   sPublicacion_ImprimirPublicacionSegunCliente(pArrayPublicacion, limite, indiceABuscar) != -1)
 			{
@@ -323,10 +331,10 @@ int sPublicacion_ImprimirPublicacionSegunCliente(sPublicacion *pArrayPublicacion
 			printf("%s    %d     %d    %d    %d  \n",
 					pArrayPublicacion[i].textoAviso, pArrayPublicacion[i].idPublicacion,
 					pArrayPublicacion[i].numeroRubro, pArrayPublicacion[i].estadoPublicacion, pArrayPublicacion[i].idCliente);
-			retorno = 0;
+
 		}
 
-
+		retorno = 0;
 	}
 
 	return retorno;
@@ -343,8 +351,10 @@ static int sPublicacion_pausarTodasLasPublicaciones(sPublicacion *pArrayPublicac
 			if(pArrayPublicacion[i].idCliente == idCliente)
 			{
 				pArrayPublicacion[i].isEmpty = TRUE;
+
 			}
 		}
+		retorno = 0;
 	}
 
 	return retorno;
@@ -378,14 +388,15 @@ int sPublicacion_cantidaPublicaciones(sPublicacion* pArrayPublicacion,int limite
 	{
 		for(int i=0; i<limite; i++)
 		{
-			if(pArrayPublicacion[i].isEmpty==FALSE && id==pArrayPublicacion[i].idCliente && pArrayPublicacion[i].estadoPublicacion==ACTIVO)
+			if(pArrayPublicacion[i].isEmpty==FALSE && pArrayPublicacion[i].idCliente == id && pArrayPublicacion[i].estadoPublicacion==ACTIVO)
 			{
 				contadorPublicaciones++;
-				retorno=0;
 			}
 		}
+
+		*pResultado=contadorPublicaciones;
+		retorno=0;
 	}
-	*pResultado=contadorPublicaciones;
 	return retorno;
 }
 
@@ -395,15 +406,20 @@ int sPublicacion_imprimirClientesYPublicaciones(sPublicacion *pArrayPublicacion,
 	int cantidadPublicaciones;
 	if(pArrayPublicacion!=NULL && limite>0 && pArrayCliente!=NULL && limiteCliente>0)
 	{
-		for(int i=0;i<limiteCliente;i++)
+		for(int i=0; i<limiteCliente;i++)
 		{
-			if(sPublicacion_cantidaPublicaciones(pArrayPublicacion,limite,pArrayCliente[i].idCliente,&cantidadPublicaciones)==0)
+			if( pArrayCliente[i].isEmpty == FALSE &&
+				sPublicacion_cantidaPublicaciones(pArrayPublicacion,limite,pArrayCliente[i].idCliente,&cantidadPublicaciones)==0)
 			{
-				printf("%d : %d avisos activos.",pArrayCliente[i].idCliente,cantidadPublicaciones);
-				retorno=0;
+				printf("\n Nombre:  %s     Apellido:   %s      Cuit:   %s     id:    %d    Publicaciones activas: %d",
+						pArrayCliente[i].nombre, pArrayCliente[i].apellido,pArrayCliente[i].cuit,
+						pArrayCliente[i].idCliente, cantidadPublicaciones);
 			}
 		}
+		retorno=0;
 	}
 
 	return retorno;
 }
+
+

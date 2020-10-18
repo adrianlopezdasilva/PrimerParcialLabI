@@ -15,7 +15,7 @@
 #include "sPublicacion.h"
 #include "sCliente.h"
 
-#define CANTIDAD_CLIENTES 2
+#define CANTIDAD_CLIENTES 4
 #define CANTIDAD_PUBLICACIONES 6
 
 int main(void)
@@ -25,16 +25,17 @@ int main(void)
 	sPublicacion arrayPublicacion[CANTIDAD_PUBLICACIONES];
 	int opcion;
 
-	if(sCliente_init(arrayCliente,CANTIDAD_CLIENTES ) == 0)
-	{
+	sCliente_init(arrayCliente,CANTIDAD_CLIENTES );
+	sPublicacion_init( arrayPublicacion,  CANTIDAD_PUBLICACIONES);
+
 		do
-		{if(utn_getNumero("\nMenu de opciones"
+		{if(utn_getNumero("\n\nMenu de opciones"
 							"\n1-Dar de alta un cliente "
 							"\n2-Modificar un cliente"
 							"\n3-Dar de baja un cliente"
 							"\n4-Dar de alta una publicacion"
 							"\n5-Pausar una publicacion"
-							"\n-Reanudar una publicacion"
+							"\n6-Reanudar una publicacion"
 							"\n7-imprimir lista "
 							"\n8-salir\n","Error,opcion invalida\n",&opcion, 20, 1, 8)== 0)
 				{
@@ -77,12 +78,15 @@ int main(void)
 							}
 							break;
 						case 7:
-							sCliente_imprimir(arrayCliente, CANTIDAD_CLIENTES);
-
+							if(sPublicacion_imprimirClientesYPublicaciones(arrayPublicacion, CANTIDAD_PUBLICACIONES,arrayCliente, CANTIDAD_CLIENTES) !=0)
+							{
+								printf("No hay clientes para mostrar");
+							}
+							break;
 					}
 				}
 		}while(opcion !=8);
-	}
+
 }
 
 
