@@ -43,7 +43,7 @@ int main(void)
 	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,3,"Urgente ");
 	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,2,"Urgente");
 	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,2,"Con o sin experiencia");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,3,3,"Con o sin experiencias");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,1,3,"Con o sin experiencias");
 
 		do
 		{if(utn_getNumero("\n\nMenu de opciones"
@@ -54,8 +54,8 @@ int main(void)
 							"\n5-Pausar una publicacion"
 							"\n6-Reanudar una publicacion"
 							"\n7-imprimir lista "
-							"\n8-Informes\n"
-							"\n9-Salir","Error,opcion invalida\n",&opcion, 20, 1, 8)== 0)
+							"\n8-Informes"
+							"\n9-Salir\n","Error,opcion invalida\n",&opcion, 20, 1, 9)== 0)
 				{
 					switch(opcion)
 					{
