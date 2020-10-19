@@ -10,6 +10,16 @@
 #include "utn.h"
 #include "sPublicacion.h"
 #include "sCliente.h"
+
+/**
+ * \brief Compara la cantidad de publicaciones que tiene cada cliente e imprime por pantalla el de mayor numero
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite Acota el numero de publicaciones
+ * \param pArrayCliente Puntero al array de clientes
+ * \param limiteCliente Acota el numero de clientes
+ * \return (-1) Error / (0) Ok
+ *
+ */
 /*
 int informe_clienteConMasAvisos (sPublicacion* pArrayPublicaciones,int limite, sCliente* pArrayClientes, int limiteClientes, int *cantidad)
 {
@@ -43,6 +53,13 @@ int informe_clienteConMasAvisos (sPublicacion* pArrayPublicaciones,int limite, s
 	return retorno;
 }
 */
+/**
+ * \brief Cuenta las cantidas de publicaciones pausadas totatles y lo imprime por pantalla
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite Acota el numero de publicaciones
+ * \return (-1) Error / (0) Ok
+ *
+ */
 int informe_cantidadPublicacionesPausadas(sPublicacion* pArrayPublicaciones, int limite)
 {
 	int retorno = -1;
@@ -71,6 +88,13 @@ int informe_cantidadPublicacionesPausadas(sPublicacion* pArrayPublicaciones, int
 	return retorno;
 }
 
+/**
+ * \brief Cuenta las cantidad de publicaciones activas totales y lo imprime por pantalla
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite Acota el numero de publicaciones
+ * \return (-1) Error / (0) Ok
+ *
+ */
 
 int informe_cantidadPublicacionesActivas(sPublicacion* pArrayPublicaciones, int limite)
 {
@@ -99,7 +123,13 @@ int informe_cantidadPublicacionesActivas(sPublicacion* pArrayPublicaciones, int 
 
 	return retorno;
 }
-
+/**
+ * \brief Cuenta las cantidad de publicaciones que tiene un rubro y lo imprime por pantalla
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite Acota el numero de publicaciones
+ * \return (-1) Error / (0) Ok
+ *
+ */
 int sPublicacion_cantidadPublicacionesSegunRubro(sPublicacion* pArrayPublicacion, int limite)
 {
 	int retorno = -1;
@@ -123,7 +153,45 @@ int sPublicacion_cantidadPublicacionesSegunRubro(sPublicacion* pArrayPublicacion
 			}else
 			{
 				printf("La cantidad de publicaciones en ese rubro es %d", contador);
-
+			}
+		}
+		retorno = 0;
+	}
+	return retorno;
+}
+/**
+ * \brief Cuenta las cantidad de publicaciones que tiene un cuit y lo imprime por pantalla
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite Acota el numero de publicaciones
+ * \param pArrayCliente Puntero al array de clientes
+ * \param limiteCliente Acota el numero de clientes
+ * \return (-1) Error / (0) Ok
+ *
+ */
+int sPublicacion_cantidadPublicacionesSegunCuit(sPublicacion* pArrayPublicacion, int limite, sCliente* pArrayCliente, int limiteCliente)
+{
+	int retorno = -1;
+	char indice[SIZECLIENTE];
+	int contador = 0;
+	if(pArrayPublicacion != NULL && limite > 0 && pArrayCliente != NULL && limiteCliente > 0)
+	{
+		sCliente_imprimir(pArrayCliente, limiteCliente);
+		if(utn_getString("\nIngrese el cuit del cliente al que quiere investigar:"
+							,"\nEese cuit no existe",indice, 2, SIZECLIENTE)== 0)
+		{
+			for(int i = 0; i < limite; i++)
+			{
+				if(pArrayCliente[i].cuit == indice && pArrayPublicacion[i].isEmpty == FALSE)
+				{
+					contador++;
+				}
+			}
+			if(contador == 0)
+			{
+				printf("Este cliente no tiene publicaciones");
+			}else
+			{
+				printf("La cantidad de publicaciones de ese cliente es %d", contador);
 			}
 		}
 		retorno = 0;

@@ -113,30 +113,33 @@ int main(void)
 											"\n2-Cantidad de publicaciones pausadas"
 											"\n3"
 											"\n4-"
-											"\n5- Cantidad de publicaciones activas"
+											"\n5-Cantidad de publicaciones activas"
 											"\n6-"
 											"\n7-Cantidad de publicaciones segun rubro"
-											"\n8-"
+											"\n8-Cantidad de publicaciones segun cuit"
 											"\n9-Salir\n","Error,opcion invalida\n",&opcionInformes, 4, 1, 9)== 0)
 								{
-										switch(opcionInformes)
-										{
-										case 2:
-											informe_cantidadPublicacionesPausadas(arrayPublicacion, CANTIDAD_PUBLICACIONES);
-											break;
-										case 5:
-											informe_cantidadPublicacionesActivas(arrayPublicacion, CANTIDAD_PUBLICACIONES);
-											break;
-										case 7:
-											sPublicacion_cantidadPublicacionesSegunRubro(arrayPublicacion, CANTIDAD_PUBLICACIONES);
-											break;
+									switch(opcionInformes)
+									{
+									case 2:
+										informe_cantidadPublicacionesPausadas(arrayPublicacion, CANTIDAD_PUBLICACIONES);
+										break;
+									case 5:
+										informe_cantidadPublicacionesActivas(arrayPublicacion, CANTIDAD_PUBLICACIONES);
+										break;
+									case 7:
+										sPublicacion_cantidadPublicacionesSegunRubro(arrayPublicacion, CANTIDAD_PUBLICACIONES);
+										break;
+									case 8:
+										  sPublicacion_cantidadPublicacionesSegunCuit(arrayPublicacion, CANTIDAD_PUBLICACIONES,arrayCliente, CANTIDAD_CLIENTES);
+										 break;
 										}
 								}
 
-								} while(opcionInformes != '9');
+								} while(opcionInformes != 9);
 								break;
-							 }
 					}
+			}
 
 		}while(opcion !=9);
 

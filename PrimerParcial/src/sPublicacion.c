@@ -221,15 +221,15 @@ int sPublicacion_imprimirPausados (sPublicacion *pArrayPublicacion, int limite)
 	return retorno;
 }
 /**
- * \brief Da de baja un Publicacion
- * \param sPublicacion *pArrayPublicacion El array a utilizar
- * \param int limite Acota el numero de iteraciones
- * \param sCliente pArrayCliente El array de clientes a utilizar
- * \param int limiteCliente Acota el numero de iteraciones en los array de clientes
+ * \brief Pone en pausa una publicacion
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param int limite Acota el numero de publicaciones
+ * \param pArrayCliente Puntero al array de clientes
+ * \param  limiteCliente Acota el numero de clientes
  * \return (-1) Error / (0) Ok
  *
  */
-int sPublicacion_pausarPublicacion(sPublicacion *pArrayPublicacion, int limite, sCliente *pArrayCliente, int limiteCliente)
+int sPublicacion_pausarPublicacion(sPublicacion* pArrayPublicacion, int limite, sCliente* pArrayCliente, int limiteCliente)
 {
 	int retorno = -1;
 	int idAPausar;
@@ -244,7 +244,7 @@ int sPublicacion_pausarPublicacion(sPublicacion *pArrayPublicacion, int limite, 
 		   sPublicacion_ImprimirPublicacionSegunCliente(pArrayPublicacion, limite, indiceABuscar) != -1)
 			{
 				utn_getNumero("\nConfirma pausar publicacion? \n1 = SI \n2 = NO\n","No es una opcion valida",&flagConfirmar,3,1,2);
-				if(flagConfirmar == 1 && sPublicacion_pausarTodasLasPublicaciones(pArrayPublicacion, limite, indiceABuscar) == 0)
+				if(flagConfirmar == 1)
 				{
 					pArrayPublicacion[idAPausar].estadoPublicacion = PAUSADO;
 					retorno = 0;
