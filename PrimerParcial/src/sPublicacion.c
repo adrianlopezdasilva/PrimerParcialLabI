@@ -17,11 +17,10 @@
 #include <string.h>
 #include "sPublicacion.h"
 #include "utn.h"
-
+/*
 static int sPublicacion_pausarTodasLasPublicaciones(sPublicacion* pArrayPublicacion, int limite, int idCliente);
-static int sPublicacion_reanudarTodasLasPublicaciones(sPublicacion*  pArrayPublicacion,int limite, int idCliente);
 
-
+*/
 /**
  * \brief Genera un nuevo id y lo incrementa cada vez que sea necesario
  * \return el id a utilizar
@@ -36,8 +35,8 @@ static int sPlubicacion_generarNuevoId (void)
 
 /**
  * \brief Inicializa la totalidad del array a utilizar como vacios
- * \param *pArrayPublicacion Puntero al array de publicaciones
- * \param  limite Limite del array
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite Limite del array
  * \return (-1) Error / (0) Ok
  *
  */
@@ -60,9 +59,9 @@ int sPublicacion_init(sPublicacion *pArrayPublicacion, int limite)
  * \brief Busca un lugar libre en el array
  * \param *pArrayPublicacion Puntero al array de publicaciones
  * \param limite Limite del array
- * \return (-1) Error / (0) Ok
+ * \return el indice encontrado, -1 si surge error
  */
-int sPublicacion_buscarLibre(sPublicacion *pArrayPublicacion, int limite)
+int sPublicacion_buscarLibre(sPublicacion* pArrayPublicacion, int limite)
 {
 	int retorno = -1;
 
@@ -83,12 +82,12 @@ int sPublicacion_buscarLibre(sPublicacion *pArrayPublicacion, int limite)
 
 /**
  * \brief Busca una posicion libre en el array y lo pasa por referencia
- * \param *pArrayPublicacion El array a utilizar
- * \param int limite Acota el numero de iteraciones
- * \return (-1) Error / (0) Ok
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite El limite del array
+ * \return el indice encontrado, -1 si surge error
  *
  */
-int sPublicacion_buscarLibreRef (sPublicacion *pArrayPublicacion, int limite, int * pIndice)
+int sPublicacion_buscarLibreRef (sPublicacion* pArrayPublicacion, int limite, int* pIndice)
 {
 	int retorno = -1;
 
@@ -107,13 +106,15 @@ int sPublicacion_buscarLibreRef (sPublicacion *pArrayPublicacion, int limite, in
 	return retorno;
 }
 /**
- * \brief Da de alta un Publicacion
- * \param *pArrayPublicacion El array a utilizar
- * \param int limite Acota el numero de iteraciones
+ * \brief Da de alta una publicacion
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite El limite del array Publicaciones
+ * \param pArrayCliente Puntero al array de clientes
+ * \param limiteCliente El limite del array clientes
  * \return (-1) Error / (0) Ok
  *
  */
-int sPublicacion_altaPublicacion(sPublicacion *pArrayPublicacion, int limite, sCliente *pArrayCliente, int limiteCliente )
+int sPublicacion_altaPublicacion(sPublicacion* pArrayPublicacion, int limite, sCliente* pArrayCliente, int limiteCliente )
 {
 	int retorno = -1;
 	int idABuscar;
@@ -153,9 +154,9 @@ int sPublicacion_altaPublicacion(sPublicacion *pArrayPublicacion, int limite, sC
 	return retorno;
 }
 /**
- * \brief Imprime el array por pantalla
- * \param *pArrayPublicacion El array a imprimir
- * \param int limite Acota el numero de iteraciones
+ * \brief Imprime el array de activos por pantalla
+ * \param pArrayPublicacion  Puntero al array a imprimir
+ * \param limite El limite del array
  * \return (-1) Error / (0) Ok
  *
  */
@@ -187,13 +188,13 @@ int sPublicacion_imprimirActivos (sPublicacion *pArrayPublicacion, int limite)
 	return retorno;
 }
 /**
- * \brief Imprime el array por pantalla
- * \param *pArrayPublicacion El array a imprimir
- * \param int limite Acota el numero de iteraciones
+ * \brief Imprime el array de pausados  por pantalla
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite El limite del array
  * \return (-1) Error / (0) Ok
  *
  */
-int sPublicacion_imprimirPausados (sPublicacion *pArrayPublicacion, int limite)
+int sPublicacion_imprimirPausados (sPublicacion* pArrayPublicacion, int limite)
 {
 	int retorno = -1;
 	int flagPausados = 0;
@@ -223,9 +224,9 @@ int sPublicacion_imprimirPausados (sPublicacion *pArrayPublicacion, int limite)
 /**
  * \brief Pone en pausa una publicacion
  * \param pArrayPublicacion Puntero al array de publicaciones
- * \param int limite Acota el numero de publicaciones
+ * \param limite Limite del array publicaciones
  * \param pArrayCliente Puntero al array de clientes
- * \param  limiteCliente Acota el numero de clientes
+ * \param limiteCliente Limite del array clientes
  * \return (-1) Error / (0) Ok
  *
  */
@@ -241,7 +242,7 @@ int sPublicacion_pausarPublicacion(sPublicacion* pArrayPublicacion, int limite, 
 		sPublicacion_imprimirActivos(pArrayPublicacion, limite);
 		if(utn_getNumero("\nIngrese el id del Publicacion a pausar:\n","Error",&indiceABuscar,3,0,9999)==0 &&
 		   sPublicacion_buscarIndicePorId(pArrayPublicacion,limite,indiceABuscar,&idAPausar)==0 &&
-		   sPublicacion_ImprimirPublicacionSegunCliente(pArrayPublicacion, limite, indiceABuscar) != -1)
+		   sPublicacion_imprimirClienteSegunPublicacion(pArrayPublicacion, limite, indiceABuscar, pArrayCliente, limiteCliente) != -1)
 			{
 				utn_getNumero("\nConfirma pausar publicacion? \n1 = SI \n2 = NO\n","No es una opcion valida",&flagConfirmar,3,1,2);
 				if(flagConfirmar == 1)
@@ -258,7 +259,15 @@ int sPublicacion_pausarPublicacion(sPublicacion* pArrayPublicacion, int limite, 
 
 	return retorno;
 }
-
+/**
+ * \brief Reanuda una publicacion
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite Limite del array publicaciones
+ * \param pArrayCliente Puntero al array de clientes
+ * \param limiteCliente Limite del array clientes
+ * \return (-1) Error / (0) Ok
+ *
+ */
 int sPublicacion_reanudarPublicacion(sPublicacion* pArrayPublicacion, int limite, sCliente* pArrayCliente, int limiteCliente)
 {
 	int retorno = -1;
@@ -276,15 +285,15 @@ int sPublicacion_reanudarPublicacion(sPublicacion* pArrayPublicacion, int limite
 				{
 					if(utn_getNumero("\nConfirma reanudar publicacion? \n1 = SI \n2 = NO\n","No es una opcion valida",&flagConfirmar,3,1,2))
 					{
-						if(flagConfirmar == 1 && sPublicacion_reanudarTodasLasPublicaciones(pArrayPublicacion, limite, indiceABuscar) == 0)
-											{
-												pArrayPublicacion[idAReanudar].estadoPublicacion = ACTIVO;
-												retorno = 0;
-											}
-											else
-											{
-												printf("Operacion abortada");
-											}
+						if(flagConfirmar == 1 )
+						  {
+							pArrayPublicacion[idAReanudar].estadoPublicacion = ACTIVO;
+							retorno = 0;
+						}
+						else
+						{
+							printf("Operacion abortada");
+						}
 					}
 
 				}
@@ -293,54 +302,16 @@ int sPublicacion_reanudarPublicacion(sPublicacion* pArrayPublicacion, int limite
 	return retorno;
 }
 
-
-/**
- * \brief Modifica un Publicacion ya existente
- * \param *pArrayPublicacion El array a utilizar
- * \param int limite Acota el numero de iteraciones
- * \return (-1) Error / (0) Ok
- *
- */
-/*int sPublicacion_modificar (sPublicacion *pArrayPublicacion, int limite)
-{
-	int retorno = -1;
-	int idBuscar;
-	int indiceAModificar;
-	sPublicacion bufferPublicacion;
-	if (pArrayPublicacion != NULL && limite>0)
-	{
-		sPublicacion_imprimir(pArrayPublicacion, limite);
-		if(utn_getNumero("\nId que quiere modificar?: ","ERROR!",&idBuscar,6,1,9999)==0)
-		{
-			if(sPublicacion_buscarIndicePorId(pArrayPublicacion, limite,idBuscar,&indiceAModificar)==0)
-			{
-				bufferPublicacion = pArrayPublicacion[indiceAModificar]; // IMPORTANTE!
-				if (utn_getNombre("Ingrese un nuevo nombre: ", "\nError",bufferPublicacion.nombre, 2,SIZEPUBLICACION)==0)
-				{
-					if (utn_getNombre("Ingrese un nuevo apellido: ", "\nError", bufferPublicacion.apellido, 2,SIZEPUBLICACION)==0)
-					{
-						if(utn_getString("Ingrese un nuevo cuit: ", "\nError", bufferPublicacion.cuit, 2, SIZEPUBLICACION)==0 )
-						{
-							pArrayPublicacion[indiceAModificar] = bufferPublicacion; // COPIAMOS AL ARRAY
-							retorno = 0;
-						}
-					}
-				}
-			}
-		}
-	}
-	return retorno;
-}*/
 /**
  * \brief Busca el indice de un Publicacion segun su id
- * \param *pArrayPublicacion El array a utilizar
- * \param int limite Acota el numero de iteraciones
- * \param int idBuscar El id que usaremos como referencia para buscar el indice deseado
- * \param int *pIndice El puntero donde se va a guardar el indice deseado
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite Limite del array de publicaciones
+ * \param idBuscar El id que usaremos como referencia para buscar el indice deseado
+ * \param *pIndice El puntero donde se va a guardar el indice deseado
  * \return El indice que se queria buscar; -1 si surge un error
  *
  */
-int sPublicacion_buscarIndicePorId (sPublicacion * pArrayPublicacion, int limite, int idBuscar,int * pIndice)
+int sPublicacion_buscarIndicePorId (sPublicacion* pArrayPublicacion, int limite, int idBuscar,int * pIndice)
 {
     int retorno = -1;
     int i ;
@@ -365,6 +336,14 @@ int sPublicacion_buscarIndicePorId (sPublicacion * pArrayPublicacion, int limite
      return retorno;
 }
 
+/**
+ * \brief Imprime todas las publicaciones del cliente ingresado
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite Limite del array de publicaciones
+ * \param idCliente El id que usaremos como referencia para buscar el indice deseado
+ * \return 0 si OK, -1 si errorr
+ *
+ */
 int sPublicacion_ImprimirPublicacionSegunCliente(sPublicacion *pArrayPublicacion, int limite, int idCliente)
 {
 	int retorno = -1;
@@ -385,8 +364,17 @@ int sPublicacion_ImprimirPublicacionSegunCliente(sPublicacion *pArrayPublicacion
 	}
 	return retorno;
 }
-
-int sPublicacion_ImprimirCleinteSegunpublicacion(sPublicacion *pArrayPublicacion, int limite, int idPublicacion, sCliente* pArrayCliente, int limiteCliente)
+/**
+ * \brief Imprime el cliente al cual pertenece la publicacion
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite Limite del array de publicaciones
+ * \param idPublicacion El id que usaremos como referencia para buscar el indice deseado
+ * \param pArrayCliente Puntero al array de clientes
+ * \param limiteCliente Limite del array clientes
+ * \return 0 si OK, -1 si error
+ *
+ */
+int sPublicacion_imprimirClienteSegunPublicacion(sPublicacion* pArrayPublicacion, int limite, int idPublicacion, sCliente* pArrayCliente, int limiteCliente)
 {
 	int retorno = -1;
 
@@ -397,7 +385,7 @@ int sPublicacion_ImprimirCleinteSegunpublicacion(sPublicacion *pArrayPublicacion
 		{
 			if(pArrayPublicacion[i].idPublicacion == idPublicacion && pArrayPublicacion[i].isEmpty == FALSE )
 			{
-				printf("Nombre: %s            Apellido:    %s         cuit:     %s       ID: %d",
+				printf("\nNombre: %s            Apellido:    %s         cuit:     %s       ID: %d",
 						pArrayCliente[i].nombre, pArrayCliente[i].apellido, pArrayCliente[i].cuit, pArrayCliente[i].idCliente);
 			}
 		}
@@ -405,7 +393,7 @@ int sPublicacion_ImprimirCleinteSegunpublicacion(sPublicacion *pArrayPublicacion
 
 	return retorno;
 }
-
+/*
 static int sPublicacion_pausarTodasLasPublicaciones(sPublicacion* pArrayPublicacion, int limite, int idCliente)
 {
 	int retorno = -1;
@@ -425,27 +413,18 @@ static int sPublicacion_pausarTodasLasPublicaciones(sPublicacion* pArrayPublicac
 
 	return retorno;
 }
+ */
 
-static int sPublicacion_reanudarTodasLasPublicaciones(sPublicacion*  pArrayPublicacion,int limite, int idCliente)
-{
-	int retorno=-1;
-
-	if(pArrayPublicacion !=NULL && limite>0)
-	{
-		for(int i = 0; i<limite; i++)
-		{
-			if(pArrayPublicacion[i].idCliente==idCliente)
-			{
-				pArrayPublicacion[i].isEmpty = FALSE;
-				retorno=0;
-			}
-		}
-	}
-	return retorno;
-}
-
-
-int sPublicacion_cantidadPublicacionesActivas(sPublicacion* pArrayPublicacion,int limite,int idCliente,int *pResultado)
+/**
+ * \brief Cuenta cuantas publicaciones activas tiene un cliente y lo pasa por referencia
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite Limite del array publicaciones
+ * \param idCliente El ID del cliente al cual se quieren ver sus publicaciones
+ * \param pResultado El puntero donde se va a guardar el contador
+ * \return (-1) Error / (0) Ok
+ *
+ */
+int sPublicacion_cantidadPublicacionesActivas(sPublicacion* pArrayPublicacion,int limite,int idCliente,int* pResultado)
 {
 	int retorno=-1;
 	int contadorPublicaciones=0;
@@ -465,8 +444,16 @@ int sPublicacion_cantidadPublicacionesActivas(sPublicacion* pArrayPublicacion,in
 	}
 	return retorno;
 }
-
-int sPublicacion_imprimirClientesYPublicaciones(sPublicacion* pArrayPublicacion,int limite, sCliente *pArrayCliente,int limiteCliente)
+/**
+ * \brief Imprimir el array de clientes junto a cuantas publicaciones tiene cada cliente
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite Limite del array publicaciones
+ * \param pArrayCliente Puntero al array de clientes
+ * \param limiteCliente Limite del array clientes
+ * \return (-1) Error / (0) Ok
+ *
+ */
+int sPublicacion_imprimirClientesYPublicaciones(sPublicacion* pArrayPublicacion,int limite, sCliente* pArrayCliente,int limiteCliente)
 {
 	int retorno=-1;
 	int cantidadPublicaciones;
@@ -488,14 +475,24 @@ int sPublicacion_imprimirClientesYPublicaciones(sPublicacion* pArrayPublicacion,
 	return retorno;
 }
 
-int publicacion_altaForzada(sPublicacion* pArrayPublicacion, int limite ,int idCliente,int rubro,  char* publicacion)
+/**
+ * \brief Carga de forma forzosa el array de publicaciones
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite El limite del array
+ * \param idCliente El campo "idCliente" del array
+ * \param rubro El campo "rubro" del array
+ * \param textoAviso El campo "textoAviso" del array
+ * \return -1 para error y 0 si  OK
+ *
+ */
+int publicacion_altaForzada(sPublicacion* pArrayPublicacion, int limite ,int idCliente,int rubro,  char* textoAviso)
 {
     int retorno = -1;
     int indice;
     if (sPublicacion_buscarLibre(pArrayPublicacion, limite) >=0)
     {
     	indice = sPublicacion_buscarLibre(pArrayPublicacion, limite);
-        strncpy(pArrayPublicacion[indice].textoAviso,publicacion,64);
+        strncpy(pArrayPublicacion[indice].textoAviso,textoAviso,64);
         pArrayPublicacion[indice].idCliente = idCliente;
         pArrayPublicacion[indice].numeroRubro=rubro;
         pArrayPublicacion[indice].estadoPublicacion=ACTIVO;

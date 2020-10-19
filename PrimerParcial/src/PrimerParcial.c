@@ -128,10 +128,10 @@ int main(void)
 										informe_cantidadPublicacionesActivas(arrayPublicacion, CANTIDAD_PUBLICACIONES);
 										break;
 									case 7:
-										sPublicacion_cantidadPublicacionesSegunRubro(arrayPublicacion, CANTIDAD_PUBLICACIONES);
+										informe_cantidadPublicacionesSegunRubro(arrayPublicacion, CANTIDAD_PUBLICACIONES);
 										break;
 									case 8:
-										  sPublicacion_cantidadPublicacionesSegunCuit(arrayPublicacion, CANTIDAD_PUBLICACIONES,arrayCliente, CANTIDAD_CLIENTES);
+										 informe_cantidadPublicacionesSegunCuit(arrayPublicacion, CANTIDAD_PUBLICACIONES,arrayCliente, CANTIDAD_CLIENTES);
 										 break;
 										}
 								}

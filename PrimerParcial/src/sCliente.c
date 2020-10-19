@@ -24,12 +24,12 @@ static int sCliente_generarNuevoId (void)
 
 /**
  * \brief Inicializa la totalidad del array a utilizar como vacios
- * \param *pArrayCliente El array a utilizar
- * \param int limite Acota el numero de iteraciones
+ * \param pArrayCliente Puntero al array de clientes
+ * \param  limite El limite del array
  * \return (-1) Error / (0) Ok
  *
  */
-int sCliente_init(sCliente *pArrayCliente, int limite)
+int sCliente_init(sCliente* pArrayCliente, int limite)
 {
 	int retorno = -1;
 	{
@@ -48,11 +48,11 @@ int sCliente_init(sCliente *pArrayCliente, int limite)
 
 /**
  * \brief Inicializa El array de clientes en
- * \param *pArrayCliente El array a utilizar
- * \param int limite Acota el numero de iteraciones
- * \return (-1) Error / (0) Ok
+ * \param pArrayCliente Puntero al array de clientes
+ * \param limite  El limite del array
+ * \return El indice deseado o -1 si surge error
  */
-int sCliente_buscarLibre(sCliente *pArrayCliente, int limite)
+int sCliente_buscarLibre(sCliente* pArrayCliente, int limite)
 {
 	int retorno = -1;
 
@@ -72,12 +72,12 @@ int sCliente_buscarLibre(sCliente *pArrayCliente, int limite)
 
 /**
  * \brief Busca una posicion libre en el array y lo pasa por referencia
- * \param *pArrayCliente El array a utilizar
- * \param int limite Acota el numero de iteraciones
- * \return (-1) Error / (0) Ok
+ * \param pArrayCliente Puntero al array de clientes
+ * \param limite El limite del arrray
+ * \return El indice deseado o -1 si surge error
  *
  */
-int sCliente_buscarLibreRef (sCliente *pArrayCliente, int limite, int * pIndice)
+int sCliente_buscarLibreRef (sCliente* pArrayCliente, int limite, int * pIndice)
 {
 	int retorno = -1;
 
@@ -97,12 +97,12 @@ int sCliente_buscarLibreRef (sCliente *pArrayCliente, int limite, int * pIndice)
 }
 /**
  * \brief Da de alta un cliente
- * \param *pArrayCliente El array a utilizar
- * \param int limite Acota el numero de iteraciones
+ * \param *pArrayCliente Puntero al array de clientes
+ * \param limite El limite del array
  * \return (-1) Error / (0) Ok
  *
  */
-int sCliente_altaCliente(sCliente *pArrayCliente, int limite)
+int sCliente_altaCliente(sCliente* pArrayCliente, int limite)
 {
 	int retorno = -1;
 	int indice;
@@ -137,12 +137,12 @@ int sCliente_altaCliente(sCliente *pArrayCliente, int limite)
 }
 /**
  * \brief Imprime el array por pantalla
- * \param *pArrayCliente El array a imprimir
- * \param int limite Acota el numero de iteraciones
+ * \param pArrayCliente Puntero al array a imprimir
+ * \param  limite El limite del array
  * \return (-1) Error / (0) Ok
  *
  */
-int sCliente_imprimir (sCliente *pArrayCliente, int limite)
+int sCliente_imprimir (sCliente* pArrayCliente, int limite)
 {
 	int retorno = -1;
 
@@ -163,12 +163,12 @@ int sCliente_imprimir (sCliente *pArrayCliente, int limite)
 
 /**
  * \brief Da de baja un cliente
- * \param *pArrayCliente El array a utilizar
- * \param int limite Acota el numero de iteraciones
+ * \param pArrayCliente Puntero al array a imrpimir
+ * \param  limite El limite del array
  * \return (-1) Error / (0) Ok
  *
  */
-int sCliente_bajaCliente(sCliente *pArrayCliente, int limite)
+int sCliente_bajaCliente(sCliente* pArrayCliente, int limite)
 {
 	int retorno = -1;
 	int idABorrar;
@@ -192,12 +192,12 @@ int sCliente_bajaCliente(sCliente *pArrayCliente, int limite)
 }
 /**
  * \brief Modifica un cliente ya existente
- * \param *pArrayCliente El array a utilizar
- * \param int limite Acota el numero de iteraciones
+ * \param pArrayCliente Puntero al array a imrpimir
+ * \param limite El limite del array
  * \return (-1) Error / (0) Ok
  *
  */
-int sCliente_modificar (sCliente *pArrayCliente, int limite)
+int sCliente_modificar (sCliente* pArrayCliente, int limite)
 {
 	int retorno = -1;
 	int idBuscar;
@@ -232,14 +232,14 @@ int sCliente_modificar (sCliente *pArrayCliente, int limite)
 }
 /**
  * \brief Busca el indice de un cliente segun su id
- * \param *pArrayCliente El array a utilizar
- * \param int limite Acota el numero de iteraciones
- * \param int idBuscar El id que usaremos como referencia para buscar el indice deseado
- * \param int *pIndice El puntero donde se va a guardar el indice deseado
+ * \param pArrayCliente Puntero al array de clientes
+ * \param limite El limite del array
+ * \param idBuscar El id que usaremos como referencia para buscar el indice deseado
+ * \param pIndice El puntero donde se va a guardar el indice deseado
  * \return El indice que se queria buscar; -1 si surge un error
  *
  */
-int sCliente_buscarIndicePorId (sCliente * pArrayCliente, int limite, int idBuscar,int * pIndice)
+int sCliente_buscarIndicePorId (sCliente* pArrayCliente, int limite, int idBuscar,int* pIndice)
 {
     int retorno = -1;
     int i ;
@@ -264,7 +264,16 @@ int sCliente_buscarIndicePorId (sCliente * pArrayCliente, int limite, int idBusc
      return retorno;
 }
 
-
+/**
+ * \brief Carga de forma forzosa el array de clientes
+ * \param pArrayCliente Puntero al array de clientes
+ * \param limite El limite del array
+ * \param nombre El campo "nombre" del array
+ * \param apellido El campo "apellido" del array
+ * \param cuit El campo "cuit" del array
+ * \return -1 para error y 0 si  OK
+ *
+ */
 int cliente_altaForzada(sCliente* pArrayCliente, int limite , char * nombre, char * apellido, char * cuit)
 {
 
