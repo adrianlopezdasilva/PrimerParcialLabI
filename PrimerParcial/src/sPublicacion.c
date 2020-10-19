@@ -445,16 +445,16 @@ static int sPublicacion_reanudarTodasLasPublicaciones(sPublicacion*  pArrayPubli
 }
 
 
-int sPublicacion_cantidadPublicaciones(sPublicacion* pArrayPublicacion,int limite,int id,int *pResultado)
+int sPublicacion_cantidadPublicacionesActivas(sPublicacion* pArrayPublicacion,int limite,int idCliente,int *pResultado)
 {
 	int retorno=-1;
 	int contadorPublicaciones=0;
 
-	if(pArrayPublicacion!=NULL && limite>0 && id>0 && pResultado!=NULL)
+	if(pArrayPublicacion!=NULL && limite>0 && idCliente>0 && pResultado!=NULL)
 	{
 		for(int i=0; i<limite; i++)
 		{
-			if(pArrayPublicacion[i].isEmpty==FALSE && pArrayPublicacion[i].idCliente == id && pArrayPublicacion[i].estadoPublicacion==ACTIVO)
+			if(pArrayPublicacion[i].isEmpty==FALSE && pArrayPublicacion[i].idCliente == idCliente && pArrayPublicacion[i].estadoPublicacion==ACTIVO)
 			{
 				contadorPublicaciones++;
 			}
@@ -475,7 +475,7 @@ int sPublicacion_imprimirClientesYPublicaciones(sPublicacion* pArrayPublicacion,
 		for(int i=0; i<limiteCliente;i++)
 		{
 			if( pArrayCliente[i].isEmpty == FALSE &&
-				sPublicacion_cantidadPublicaciones(pArrayPublicacion,limite,pArrayCliente[i].idCliente,&cantidadPublicaciones)==0)
+					sPublicacion_cantidadPublicacionesActivas(pArrayPublicacion,limite,pArrayCliente[i].idCliente,&cantidadPublicaciones)==0)
 			{
 				printf("\n Nombre:  %s     Apellido:   %s      Cuit:   %s     id:    %d    Publicaciones activas: %d",
 						pArrayCliente[i].nombre, pArrayCliente[i].apellido,pArrayCliente[i].cuit,
@@ -506,3 +506,20 @@ int publicacion_altaForzada(sPublicacion* pArrayPublicacion, int limite ,int idC
     return retorno;
 }
 
+int sPublicacion_totalidadPublicacionesEnUnCliente(sPublicacion* pArrayPublicaciones,int  limite,int  idCliente)
+{
+	int retorno = 0;
+
+	if(pArrayPublicaciones != NULL && limite > 0 && idCliente >0)
+	{
+		for(int i = 0; i < limite; i++)
+		{
+			if(pArrayPublicaciones[i].isEmpty == FALSE && pArrayPublicaciones[i].idCliente == idCliente)
+			{
+				retorno++;
+			}
+		}
+	}
+
+	return retorno;
+}

@@ -14,6 +14,7 @@
 #include "utn.h"
 #include "sPublicacion.h"
 #include "sCliente.h"
+#include "informes.h"
 
 #define CANTIDAD_CLIENTES 10
 #define CANTIDAD_PUBLICACIONES 20
@@ -24,6 +25,7 @@ int main(void)
 	sCliente arrayCliente[CANTIDAD_CLIENTES];
 	sPublicacion arrayPublicacion[CANTIDAD_PUBLICACIONES];
 	int opcion;
+	int opcionInformes;
 
 	sCliente_init(arrayCliente,CANTIDAD_CLIENTES );
 	sPublicacion_init( arrayPublicacion, CANTIDAD_PUBLICACIONES);
@@ -33,17 +35,17 @@ int main(void)
 	cliente_altaForzada(arrayCliente, CANTIDAD_CLIENTES,"ccccc","ccccc","203943845");
 	cliente_altaForzada(arrayCliente, CANTIDAD_CLIENTES,"dddddd","ddddd","203943846");
 	cliente_altaForzada(arrayCliente, CANTIDAD_CLIENTES,"eeeeee","eeeee","2203943843");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,3,3,"Se busca");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,3,2,"Se busca");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,3,1,"Se busca");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,4,1,"Se busca");
 	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,1,1,"Se busca");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,3,3,"Se necesita");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,4,"Se necesita");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,3,2,"Se necesita");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,3,1,"Urgente");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,3,"Urgente ");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,1,1,"Se necesita");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,1,1,"Se necesita");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,1,"Se necesita");
 	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,2,"Urgente");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,2,"Con experiencia");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,1,3,"Con experiencias");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,3,2,"Urgente ");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,2,"Urgente");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,4,2,"Con experiencia");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,2,"Con experiencias");
 
 		do
 		{if(utn_getNumero("\n\nMenu de opciones"
@@ -91,10 +93,8 @@ int main(void)
 							}
 							break;
 						case 5:
-							if(sPublicacion_pausarPublicacion(arrayPublicacion, CANTIDAD_PUBLICACIONES,arrayCliente, CANTIDAD_CLIENTES) !=0)
-							{
-								printf("\nNo existe una publicacion con ese ID.");
-							}
+							sPublicacion_pausarPublicacion(arrayPublicacion, CANTIDAD_PUBLICACIONES,arrayCliente, CANTIDAD_CLIENTES);
+
 							break;
 						case 6:
 							sPublicacion_reanudarPublicacion(arrayPublicacion, CANTIDAD_PUBLICACIONES,arrayCliente, CANTIDAD_CLIENTES);
@@ -107,10 +107,37 @@ int main(void)
 							}
 							break;
 						case 8:
-							break;
+							do{
+								if(utn_getNumero("\n\nMenu de informes"
+											"\n1-Cliente con mas avisos "
+											"\n2-Cantidad de publicaciones pausadas"
+											"\n3"
+											"\n4-"
+											"\n5- Cantidad de publicaciones activas"
+											"\n6-"
+											"\n7-Cantidad de publicaciones segun rubro"
+											"\n8-"
+											"\n9-Salir\n","Error,opcion invalida\n",&opcionInformes, 4, 1, 9)== 0)
+								{
+										switch(opcionInformes)
+										{
+										case 2:
+											informe_cantidadPublicacionesPausadas(arrayPublicacion, CANTIDAD_PUBLICACIONES);
+											break;
+										case 5:
+											informe_cantidadPublicacionesActivas(arrayPublicacion, CANTIDAD_PUBLICACIONES);
+											break;
+										case 7:
+											sPublicacion_cantidadPublicacionesSegunRubro(arrayPublicacion, CANTIDAD_PUBLICACIONES);
+											break;
+										}
+								}
 
+								} while(opcionInformes != '9');
+								break;
+							 }
 					}
-				}
+
 		}while(opcion !=9);
 
 }
