@@ -29,12 +29,15 @@ int sPublicacion_init(sPublicacion *pArrayPublicacion, int limite);
 int sPublicacion_buscarLibre(sPublicacion *pArrayPublicacion, int limite);
 int sPublicacion_altaPublicacion(sPublicacion *pArrayPublicacion, int limite, sCliente *pArrayCliente, int limiteCliente);
 int sPublicacion_buscarLibreRef (sPublicacion *pArrayPublicacion, int limite, int *pIndice);
-int sPublicacion_imprimir (sPublicacion *pArrayPublicacion, int limite);
+int sPublicacion_imprimirActivos (sPublicacion *pArrayPublicacion, int limite);
+int sPublicacion_imprimirPausados (sPublicacion *pArrayPublicacion, int limite);
 int sPublicacion_pausarPublicacion(sPublicacion *pArrayPublicacion, int limite, sCliente *pArrayCliente, int limiteCliente);
+int sPublicacion_reanudarPublicacion(sPublicacion* pArrayPublicacion, int limite, sCliente* pArrayCliente, int limiteCliente);
 int sPublicacion_modificar (sPublicacion *pArrayPublicacion, int limite);
 int sPublicacion_buscarIndicePorId (sPublicacion * pArrayPublicacion, int limite, int idBuscar,int * pIndice);
 int sPublicacion_ImprimirPublicacionSegunCliente(sPublicacion *pArrayPublicacion, int limite, int idCliente);
-int sPublicacion_cantidaPublicaciones(sPublicacion* pArrayPublicacion,int limite,int id,int *pResultado);
+int sPublicacion_cantidadPublicaciones(sPublicacion* pArrayPublicacion,int limite,int id,int *pResultado);
 int sPublicacion_imprimirClientesYPublicaciones(sPublicacion *pArrayPublicacion,int limite, sCliente *pArrayCliente,int limiteCliente);
 int publicacion_altaForzada(sPublicacion* pArrayPublicacion, int limite ,int idCliente,int rubro,  char* publicacion);
+int sPublicacion_ImprimirCleinteSegunpublicacion(sPublicacion *pArrayPublicacion, int limite, int idCliente, sCliente* pArrayCliente, int limiteCliente);
 #endif /* SPUBLICACION_H_ */

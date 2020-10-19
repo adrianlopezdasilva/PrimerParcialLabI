@@ -42,8 +42,8 @@ int main(void)
 	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,3,1,"Urgente");
 	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,3,"Urgente ");
 	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,2,"Urgente");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,2,"Con o sin experiencia");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,1,3,"Con o sin experiencias");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,2,"Con experiencia");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,1,3,"Con experiencias");
 
 		do
 		{if(utn_getNumero("\n\nMenu de opciones"
@@ -93,15 +93,17 @@ int main(void)
 						case 5:
 							if(sPublicacion_pausarPublicacion(arrayPublicacion, CANTIDAD_PUBLICACIONES,arrayCliente, CANTIDAD_CLIENTES) !=0)
 							{
-								printf("No existe una publicacion con ese ID.");
+								printf("\nNo existe una publicacion con ese ID.");
 							}
 							break;
 						case 6:
+							sPublicacion_reanudarPublicacion(arrayPublicacion, CANTIDAD_PUBLICACIONES,arrayCliente, CANTIDAD_CLIENTES);
+
 							break;
 						case 7:
 							if(sPublicacion_imprimirClientesYPublicaciones(arrayPublicacion, CANTIDAD_PUBLICACIONES,arrayCliente, CANTIDAD_CLIENTES) !=0)
 							{
-								printf("No hay clientes para mostrar");
+								printf("\nNo hay clientes para mostrar");
 							}
 							break;
 						case 8:
