@@ -24,38 +24,37 @@
 
 int informe_clienteConMasPublicaciones (sPublicacion* pArrayPublicaciones,int limite, sCliente* pArrayClientes, int limiteClientes)
 {
-	int i;
 	int retorno = -1;
-	int contadorPublicaciones;
+	int contadorCliente;
 	int mayorPublicaciones;
-	if(pArrayPublicaciones != NULL && pArrayClientes != NULL && limite >0 && limiteClientes > 0)
+	int auxiliarCliente;
+
+	if(pArrayPublicaciones != NULL  && limite >0 && pArrayClientes != NULL && limiteClientes >0 )
 	{
 		sPublicacion_imprimirClientesYPublicaciones(pArrayPublicaciones, limite, pArrayClientes, limiteClientes);
-		for ( i = 0; i <limiteClientes; i++)
+		for (int i = 0; i <limite; i++)
 		{
-			if(pArrayClientes[i].isEmpty == FALSE)
+			if(pArrayPublicaciones[i].isEmpty == FALSE &&
+					informe_CalcularClienteRepetido(pArrayPublicaciones, limite,
+					pArrayPublicaciones[i].idCliente, &contadorCliente) ==0)
 			{
-				contadorPublicaciones = sPublicacion_totalidadPublicacionesEnUnCliente
-										(pArrayPublicaciones, limite, pArrayClientes[i].idCliente);
-				if(i == 0)
+				if(i == 0 || contadorCliente > mayorPublicaciones)
 				{
-					mayorPublicaciones = contadorPublicaciones;
+					mayorPublicaciones = contadorCliente;
+					auxiliarCliente = pArrayPublicaciones[i].idCliente;
+					retorno = 0;
 				}
-				else if (contadorPublicaciones > mayorPublicaciones)
-				{
-					mayorPublicaciones = contadorPublicaciones;
-				}
-			 }
-		 }
-		printf("\nEl cliente con mayor publicaciones es el ID: %d con %d publicaciones"
-				,pArrayClientes[i].idCliente, mayorPublicaciones);
-		retorno = 0;
+			}
+		}
+		printf("\n\nEl cliente con mayor publicaciones es el ID: %d con %d publicaciones\n",auxiliarCliente, contadorCliente);
+	}else
+	{
+		printf("No hay publicaciones cargadas");
 	}
 	return retorno;
 }
-
 /**
- * \brief Compara la cantidad de publicaciones que tiene cada cliente e imprime por pantalla el de meor numero
+ * \brief Compara la cantidad de publicaciones que tiene cada cliente e imprime por pantalla el de menor numero
  * \param pArrayPublicacion Puntero al array de publicaciones
  * \param limite El limite de larray de publicaciones
  * \param pArrayCliente Puntero al array de clientes
@@ -65,33 +64,36 @@ int informe_clienteConMasPublicaciones (sPublicacion* pArrayPublicaciones,int li
  */
 int informe_clienteConMenosPublicaciones (sPublicacion* pArrayPublicaciones,int limite, sCliente* pArrayClientes, int limiteClientes)
 {
-	int i;
 	int retorno = -1;
-	int contadorPublicaciones;
+	int contadorCliente;
 	int menorPublicaciones;
-	if(pArrayPublicaciones != NULL && pArrayClientes != NULL && limite >0 && limiteClientes > 0)
+	int auxiliarCliente;
+
+	if(pArrayPublicaciones != NULL  && limite >0 && pArrayClientes != NULL && limiteClientes >0)
 	{
-		for ( i = 0; i <limiteClientes; i++)
+		sPublicacion_imprimirClientesYPublicaciones(pArrayPublicaciones, limite, pArrayClientes, limiteClientes);
+		for (int  i = 0; i <limite; i++)
 		{
-			if(pArrayClientes[i].isEmpty == FALSE)
+			if(pArrayPublicaciones[i].isEmpty == FALSE &&
+					informe_CalcularClienteRepetido(pArrayPublicaciones, limite,
+					pArrayPublicaciones[i].idCliente, &contadorCliente) ==0)
 			{
-				contadorPublicaciones = sPublicacion_totalidadPublicacionesEnUnCliente
-										(pArrayPublicaciones, limite, pArrayPublicaciones[i].idCliente);
-				if(i == 0)
+				if(i == 0 || contadorCliente < menorPublicaciones)
 				{
-					menorPublicaciones = contadorPublicaciones;
-				}
-				else if (contadorPublicaciones < menorPublicaciones)
-				{
-					menorPublicaciones = contadorPublicaciones;
+					menorPublicaciones = contadorCliente;
+					auxiliarCliente = pArrayPublicaciones[i].idCliente;
+					retorno = 0;
 				}
 			}
 		}
-		printf("\nEl cliente con menor publicaciones es el ID: %d con %d publicaciones",pArrayPublicaciones[i].idCliente, menorPublicaciones);
-		retorno = 0;
+		printf("\n\nEl cliente con menor publicaciones es el ID: %d con %d publicaciones\n",auxiliarCliente, contadorCliente);
+	}else
+	{
+		printf("No hay publicaciones cargadas");
 	}
 	return retorno;
 }
+
 /**
  * \brief Cuenta las cantidas de publicaciones pausadas totatles y lo imprime por pantalla
  * \param pArrayPublicacion Puntero al array de publicaciones
@@ -325,7 +327,7 @@ int informe_rubroConMasPublicaciones(sPublicacion* pArrayPublicaciones,int limit
 		for (int  i = 0; i <limite; i++)
 		{
 			if(pArrayPublicaciones[i].isEmpty == FALSE &&
-				informe__CalcularRubroRepetido(pArrayPublicaciones, limite,
+				informe_CalcularRubroRepetido(pArrayPublicaciones, limite,
 									pArrayPublicaciones[i].numeroRubro, &contadorPublicaciones) ==0)
 			{
 
@@ -346,39 +348,6 @@ int informe_rubroConMasPublicaciones(sPublicacion* pArrayPublicaciones,int limit
 	return retorno;
 }
 
-
-int informe_clienteConMasPublicacione (sPublicacion* pArrayPublicaciones,int limite, sCliente* pArrayClientes, int limiteClientes)
-{
-	int i;
-	int retorno = -1;
-	int contadorPublicaciones;
-	int mayorPublicaciones;
-	if(pArrayPublicaciones != NULL && pArrayClientes != NULL && limite >0 && limiteClientes > 0)
-	{
-		sPublicacion_imprimirClientesYPublicaciones(pArrayPublicaciones, limite, pArrayClientes, limiteClientes);
-		for ( i = 0; i <limiteClientes; i++)
-		{
-			if(pArrayClientes[i].isEmpty == FALSE)
-			{
-				contadorPublicaciones = sPublicacion_totalidadPublicacionesEnUnCliente
-										(pArrayPublicaciones, limite, pArrayPublicaciones[i].idCliente);
-				if(i == 0)
-				{
-					mayorPublicaciones = contadorPublicaciones;
-				}
-				else if (contadorPublicaciones > mayorPublicaciones)
-				{
-					mayorPublicaciones = contadorPublicaciones;
-				}
-			 }
-		 }
-		printf("\nEl cliente con mayor publicaciones es el ID: %d con %d publicaciones",pArrayPublicaciones[i].idCliente, mayorPublicaciones);
-		retorno = 0;
-	}
-	return retorno;
-}
-
-
 /**
  * \brief Calcula la cantidad de veces que aparece repetido un mismo rubro en la lista de publicaciones
  * \param pArrayPublicacion Puntero al array de publicaciones
@@ -388,7 +357,7 @@ int informe_clienteConMasPublicacione (sPublicacion* pArrayPublicaciones,int lim
  * \return (-1) Error / (0) Ok
  *
  */
-int informe__CalcularRubroRepetido(sPublicacion* pArrayPublicaciones, int limite, int numeroRubro, int* pResultado)
+int informe_CalcularRubroRepetido(sPublicacion* pArrayPublicaciones, int limite, int numeroRubro, int* pResultado)
 {
 	int retorno = -1;
 	int contador = 0;
@@ -397,6 +366,25 @@ int informe__CalcularRubroRepetido(sPublicacion* pArrayPublicaciones, int limite
 		for(int i = 0; i < limite; i++)
 		{
 			if(pArrayPublicaciones[i].isEmpty == FALSE && pArrayPublicaciones[i].numeroRubro == numeroRubro)
+			{
+				contador++;
+			}
+		}
+		*pResultado = contador;
+		retorno = 0;
+	}
+
+	return retorno;
+}
+int informe_CalcularClienteRepetido(sPublicacion* pArrayPublicaciones,int  limite,int  idCliente, int *pResultado)
+{
+	int retorno = -1;
+	int contador = 0;
+	if (pArrayPublicaciones != NULL && limite > 0 && idCliente > 0 && pResultado !=NULL)
+	{
+		for(int i = 0; i < limite; i++)
+		{
+			if(pArrayPublicaciones[i].isEmpty == FALSE && pArrayPublicaciones[i].idCliente == idCliente)
 			{
 				contador++;
 			}

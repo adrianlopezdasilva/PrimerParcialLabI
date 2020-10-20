@@ -584,7 +584,7 @@ int sPublicacion_darDeBajaClienteYSusPublicaciones(sPublicacion* pArrayPublicaci
 	}
 	return retorno;
 }
-/*
+/* NO ME ANDA
 int sCliente_buscarIndicePorPublicacion (sPublicacion* pArrayPublicacion, int limite, sCliente* pArrayCliente, int limiteCliente, int idPublicacion,int* pIndice)
 {
     int retorno = -1;

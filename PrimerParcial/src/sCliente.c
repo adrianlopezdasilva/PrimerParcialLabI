@@ -295,7 +295,7 @@ int sCliente_buscarClientePorCuit(sCliente* pArrayCliente, int limite, char cuit
  * \return 0 si OK, -1 si error
  *
  */
-int sPublicacion_ImprimirElClienteDeUnaPublicacion(sCliente* pArrayCliente, int limite, int idCliente)
+int sCliente_ImprimirElClienteDeUnaPublicacion(sCliente* pArrayCliente, int limite, int idCliente)
 {
 	int retorno = -1;
 
