@@ -81,9 +81,9 @@ int main(void)
 							}
 							break;
 						case 3:
-							if(sCliente_bajaCliente(arrayCliente, CANTIDAD_CLIENTES)==0)
+							if(sPublicacion_darDeBajaClienteYSusPublicaciones(arrayPublicacion, CANTIDAD_PUBLICACIONES,arrayCliente, CANTIDAD_CLIENTES)!= 0)
 							{
-								printf("\nBaja realizada con exito");
+								printf("Ese cliente no existe");
 							}
 							break;
 						case 4:

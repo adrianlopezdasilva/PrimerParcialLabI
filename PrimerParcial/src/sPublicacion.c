@@ -17,10 +17,9 @@
 #include <string.h>
 #include "sPublicacion.h"
 #include "utn.h"
-/*
-static int sPublicacion_pausarTodasLasPublicaciones(sPublicacion* pArrayPublicacion, int limite, int idCliente);
 
-*/
+static int sPublicacion_borrarTodasLasPublicaciones(sPublicacion* pArrayPublicacion, int limite, int idCliente);
+
 /**
  * \brief Genera un nuevo id y lo incrementa cada vez que sea necesario
  * \return el id a utilizar
@@ -286,7 +285,7 @@ int sPublicacion_reanudarPublicacion(sPublicacion* pArrayPublicacion, int limite
 		{
 			if(utn_getNumero("\nIngrese el Id de la publicacion a reanudar:\n","Error",&indiceABuscar,3,0,9999)==0 &&
 			   sPublicacion_buscarIndicePorId(pArrayPublicacion,limite,indiceABuscar,&idAReanudar)==0 &&
-			   sPublicacion_ImprimirPublicacionSegunCliente(pArrayPublicacion, limite, indiceABuscar) != -1)
+			   sPublicacion_ImprimirPublicacionSegunCliente(pArrayPublicacion, limite, indiceABuscar) == 0)
 				{
 					if(utn_getNumero("\nConfirma reanudar publicacion? \n1 = SI \n2 = NO\n","No es una opcion valida",&flagConfirmar,3,1,2))
 					{
@@ -398,8 +397,16 @@ int sPublicacion_imprimirClienteSegunPublicacion(sPublicacion* pArrayPublicacion
 
 	return retorno;
 }
-/*
-static int sPublicacion_pausarTodasLasPublicaciones(sPublicacion* pArrayPublicacion, int limite, int idCliente)
+
+/**
+ * \brief Cambia el cambpo isEmpty de todas las publicaciones de determinado cliente a TRUE
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite Limite del array de publicaciones
+ * \param idCliente El ID del cliente al cual queremos borrar sus publicaciones
+ * \return 0 si OK, -1 si error
+ *
+ */
+static int sPublicacion_borrarTodasLasPublicaciones(sPublicacion* pArrayPublicacion, int limite, int idCliente)
 {
 	int retorno = -1;
 
@@ -410,15 +417,15 @@ static int sPublicacion_pausarTodasLasPublicaciones(sPublicacion* pArrayPublicac
 			if(pArrayPublicacion[i].idCliente == idCliente)
 			{
 				pArrayPublicacion[i].isEmpty = TRUE;
-
+				retorno = 0;
 			}
 		}
-		retorno = 0;
+
 	}
 
 	return retorno;
 }
- */
+
 
 /**
  * \brief Cuenta cuantas publicaciones activas tiene un cliente y lo pasa por referencia
@@ -559,3 +566,45 @@ int sPublicacion_totalidadPublicacionesEnUnRubro(sPublicacion* pArrayPublicacion
 	return retorno;
 }
 
+/**
+ * \brief Da de baja un cliente y elimina todas sus publicaciones
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite Limite del array publicaciones
+ * \param pArrayCliente Puntero al array de clientes
+ * \param limiteCliente Limite del array clientes
+ * \return (-1) Error / (0) Ok
+ *
+ */
+int sPublicacion_darDeBajaClienteYSusPublicaciones(sPublicacion* pArrayPublicacion,int limite, sCliente* pArrayCliente, int limiteCliente)
+{
+	int retorno = -1;
+	int idABorrar;
+	int indiceABorrar;
+	int flagConfirmar=2;
+
+	if (pArrayCliente != NULL && limite>0 && pArrayPublicacion != NULL && limiteCliente >0)
+	{
+		sPublicacion_imprimirClientesYPublicaciones(pArrayPublicacion, limite,pArrayCliente, limiteCliente);
+		if(utn_getNumero("\nIngrese el id del cliente a borrar: \n","Ese cliente no existe",&idABorrar,6,0,9999)==0 &&
+			sCliente_buscarIndicePorId(pArrayCliente,limite,idABorrar,&indiceABorrar)==0 &&
+			sPublicacion_ImprimirPublicacionSegunCliente(pArrayPublicacion, limite, indiceABorrar+1) == 0)
+		{
+			if(utn_getNumero("\nConfirma dar de baja este cliente y todas sus publicaciones?? \n1 = SI \n2 = NO\n"
+								,"No es una opcion valida",&flagConfirmar,3,1,2) == 0)
+			{
+				if(flagConfirmar == 1)
+				{
+					sPublicacion_borrarTodasLasPublicaciones(pArrayPublicacion,limite,indiceABorrar+1);
+					pArrayCliente[indiceABorrar].isEmpty=TRUE;
+					printf("\nBaja dada con exito");
+				}
+				else
+				{
+					printf("\nOperacion abortada");
+				}
+			}
+		}
+		retorno = 0;
+	}
+	return retorno;
+}

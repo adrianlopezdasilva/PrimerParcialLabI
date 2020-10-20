@@ -24,23 +24,21 @@
 int informe_clienteConMasPublicaciones (sPublicacion* pArrayPublicaciones,int limite, sCliente* pArrayClientes, int limiteClientes)
 {
 	int i;
-	int flagPrimerNumeroIngresado = 0;
 	int retorno = -1;
 	int contadorPublicaciones;
 	int mayorPublicaciones;
 	if(pArrayPublicaciones != NULL && pArrayClientes != NULL && limite >0 && limiteClientes > 0)
 	{
-		sCliente_imprimir(pArrayClientes, limiteClientes);
+		sPublicacion_imprimirClientesYPublicaciones(pArrayPublicaciones, limite, pArrayClientes, limiteClientes);
 		for ( i = 0; i <limiteClientes; i++)
 		{
 			if(pArrayClientes[i].isEmpty == FALSE)
 			{
 				contadorPublicaciones = sPublicacion_totalidadPublicacionesEnUnCliente
 										(pArrayPublicaciones, limite, pArrayPublicaciones[i].idCliente);
-				if(flagPrimerNumeroIngresado == 0)
+				if(i == 0)
 				{
 					mayorPublicaciones = contadorPublicaciones;
-					flagPrimerNumeroIngresado = 1;
 				}
 				else if (contadorPublicaciones > mayorPublicaciones)
 				{
@@ -176,6 +174,7 @@ int informe_cantidadPublicacionesSegunRubro(sPublicacion* pArrayPublicaciones, i
 	int contador = 0;
 	if(pArrayPublicaciones != NULL && limite > 0)
 	{
+		sPublicacion_imprimirActivos(pArrayPublicaciones, limite);
 		if(utn_getNumero("\nIngrese el numero del rubro que quiere investigar:\nOPCION 1: ADMINISTRACION\nOPCION 2: ATENCION AL CLIENTE\nOPCION 3: OPERARIO\n"
 							,"\nEese rubro no existe",&indice, 2, 1, 3)== 0)
 		{
