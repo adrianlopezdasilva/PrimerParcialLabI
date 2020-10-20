@@ -124,33 +124,38 @@ int sPublicacion_altaPublicacion(sPublicacion* pArrayPublicacion, int limite, sC
 	if(pArrayPublicacion != NULL && limite > 0 &&
 	   pArrayCliente != NULL && limiteCliente >0)
 	{
-		sCliente_imprimir(pArrayCliente, limiteCliente);
-		if(utn_getNumero("\nA que cliente le quiere agregar una publicacion?:\n", "\nError", &idABuscar, 2, 0 ,1000)== 0 &&
-		   sCliente_buscarIndicePorId(pArrayCliente, limiteCliente, idABuscar, &indice) == 0)
-			{
-				if (utn_getNumero("\nIngrese el numero del rubro:\nOPCION 1: ADMINISTRACION\nOPCION 2: ATENCION AL CLIENTE\nOPCION 3: OPERARIO\n"
-									,"\nError",&bufferPublicacion.numeroRubro, 2, 1, 3)==0 &&
-					utn_getString("Texto del aviso: ", "\nError", bufferPublicacion.textoAviso, 2,SIZEPUBLICACION)==0 )
+		if(sPublicacion_buscarLibre(pArrayPublicacion, limite) != -1)
+		{
+			sCliente_imprimir(pArrayCliente, limiteCliente);
+			if(utn_getNumero("\nA que cliente le quiere agregar una publicacion?:\n", "\nError", &idABuscar, 2, 0 ,1000)== 0 &&
+			   sCliente_buscarIndicePorId(pArrayCliente, limiteCliente, idABuscar, &indice) == 0)
 				{
-					pArrayPublicacion[indice] = bufferPublicacion;
-					pArrayPublicacion[indice].idPublicacion =  sPlubicacion_generarNuevoId();
-					pArrayPublicacion[indice].isEmpty = FALSE;
-					pArrayPublicacion[indice].estadoPublicacion = ACTIVO;
-					pArrayPublicacion[indice].idCliente = indice+1;
-					printf("\nEl ID de esta publicacion es: %d\n", pArrayPublicacion[indice].idPublicacion);
-					retorno = 0;
+					if (utn_getNumero("\nIngrese el numero del rubro:\nOPCION 1: ADMINISTRACION\nOPCION 2: ATENCION AL CLIENTE\nOPCION 3: OPERARIO\n"
+										,"\nError",&bufferPublicacion.numeroRubro, 2, 1, 3)==0 &&
+						utn_getString("Texto del aviso: ", "\nError", bufferPublicacion.textoAviso, 2,SIZEPUBLICACION)==0 )
+					{
+						pArrayPublicacion[indice] = bufferPublicacion;
+						pArrayPublicacion[indice].isEmpty = FALSE;
+						pArrayPublicacion[indice].idPublicacion =  sPlubicacion_generarNuevoId();
+						pArrayPublicacion[indice].estadoPublicacion = ACTIVO;
+						pArrayPublicacion[indice].idCliente = indice+1;
+						printf("\nEl ID de esta publicacion es: %d\n", pArrayPublicacion[indice].idPublicacion);
+						retorno = 0;
+					}
+					else
+					{
+						printf("\nError");
+					}
 				}
 				else
 				{
-					printf("\nError");
+					printf("Ese id no esta actualmente en uso");
 				}
-			}
-			else
-			{
-				printf("Ese id no esta actualmente en uso");
-			}
+		}else
+		{
+			printf("No hay mas lugar en la lista");
 		}
-
+	}
 	return retorno;
 }
 /**

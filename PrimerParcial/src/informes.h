@@ -14,5 +14,6 @@ int informe_cantidadPublicacionesPausadas(sPublicacion* pArrayPublicaciones, int
 int informe_cantidadPublicacionesActivas(sPublicacion* pArrayPublicaciones, int limite);
 int informe_cantidadPublicacionesSegunRubro(sPublicacion* pArrayPublicacion, int limite);
 int informe_cantidadPublicacionesSegunCuit(sPublicacion* pArrayPublicacion, int limite, sCliente* pArrayCliente, int limiteCliente);
+int informe_ImprimirListaDeRubrosDemMenorAMayor(sPublicacion* pArrayPublicaciones, int limite);
 #endif /* INFORMES_H_ */
 

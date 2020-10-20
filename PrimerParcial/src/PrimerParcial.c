@@ -35,17 +35,17 @@ int main(void)
 	cliente_altaForzada(arrayCliente, CANTIDAD_CLIENTES,"ccccc","ccccc","203943845");
 	cliente_altaForzada(arrayCliente, CANTIDAD_CLIENTES,"dddddd","ddddd","203943846");
 	cliente_altaForzada(arrayCliente, CANTIDAD_CLIENTES,"eeeeee","eeeee","2203943843");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,3,1,"Se busca");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,4,1,"Se busca");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,1,1,"Se busca");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,1,1,"Se necesita");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,1,1,"Se necesita");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,1,"Se necesita");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,2,"Urgente");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,3,2,"Urgente ");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,2,"Urgente");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,4,2,"Con experiencia");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,2,"Con experiencias");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,1,2,"Se busca");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,1,"Con urgencia");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,3,2,"Inmediatamente");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,4,1,"Se solicita");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,1,1,"Se emplea");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,2,"Se necesita");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,2,"Buscamos");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,3,1,"Urgente ");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,2,"De urgencia");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,4,1,"Con experiencia");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,2,"Sin experiencia");
 
 		do
 		{if(utn_getNumero("\n\nMenu de opciones"
@@ -111,8 +111,8 @@ int main(void)
 								if(utn_getNumero("\n\nMenu de informes"
 											"\n1-Cliente con mas avisos "
 											"\n2-Cantidad de publicaciones pausadas"
-											"\n3"
-											"\n4-"
+											"\n3-"
+											"\n4-Ordenar los rubros de menor a mayor"
 											"\n5-Cantidad de publicaciones activas"
 											"\n6-"
 											"\n7-Cantidad de publicaciones segun rubro"
@@ -123,6 +123,9 @@ int main(void)
 									{
 									case 2:
 										informe_cantidadPublicacionesPausadas(arrayPublicacion, CANTIDAD_PUBLICACIONES);
+										break;
+									case 4:
+										informe_ImprimirListaDeRubrosDemMenorAMayor(arrayPublicacion, CANTIDAD_PUBLICACIONES);
 										break;
 									case 5:
 										informe_cantidadPublicacionesActivas(arrayPublicacion, CANTIDAD_PUBLICACIONES);

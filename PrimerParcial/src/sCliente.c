@@ -263,6 +263,30 @@ int sCliente_buscarIndicePorId (sCliente* pArrayCliente, int limite, int idBusca
             }
      return retorno;
 }
+int sCliente_buscarClientePorCuit(sCliente* pArrayCliente, int limite, char cuitBuscar,char* pIndice)
+{
+    int retorno = -1;
+    int i ;
+
+     if (pArrayCliente != NULL && limite >0 && pIndice != NULL && cuitBuscar >= 0)
+     {
+    	 for ( i = 0; i<limite; i++)
+          {
+    		 if(pArrayCliente[i].isEmpty==FALSE &&
+    			pArrayCliente[i].cuit == cuitBuscar)
+                {
+                 	 *pIndice = i;
+                     retorno = 0;
+                     break;
+                 }
+           }
+     	}
+            else
+            {
+                printf("Error");
+            }
+     return retorno;
+}
 
 /**
  * \brief Carga de forma forzosa el array de clientes
