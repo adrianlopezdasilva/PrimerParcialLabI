@@ -85,7 +85,7 @@ int informe_clienteConMenosPublicaciones (sPublicacion* pArrayPublicaciones,int 
 				}
 			}
 		}
-		printf("\nEl cliente con menor publicacioneses el ID: %d con %d publicaicones",pArrayPublicaciones[i].idCliente, menorPublicaciones);
+		printf("\nEl cliente con menor publicaciones es el ID: %d con %d publicaciones",pArrayPublicaciones[i].idCliente, menorPublicaciones);
 		retorno = 0;
 	}
 	return retorno;
@@ -94,7 +94,7 @@ int informe_clienteConMenosPublicaciones (sPublicacion* pArrayPublicaciones,int 
  * \brief Cuenta las cantidas de publicaciones pausadas totatles y lo imprime por pantalla
  * \param pArrayPublicacion Puntero al array de publicaciones
  * \param limite El limite del array de publicaciones
- * \return (-1) Error / (0) Ok
+ * \return 1- si error, 0 si ok
  *
  */
 int informe_cantidadPublicacionesPausadas(sPublicacion* pArrayPublicaciones, int limite)
@@ -334,7 +334,39 @@ int informe_rubroConMasPublicaciones(sPublicacion* pArrayPublicaciones,int limit
 				}
 			}
 		}
-		printf("\n\nEl rubro con mayor publicaciones es %d con %d publicaciones",pArrayPublicaciones[i].numeroRubro, mayorPublicaciones);
+		printf("\n\nEl rubro con mayor publicaciones es %d con %d publicaciones\n",pArrayPublicaciones[i].numeroRubro, mayorPublicaciones);
+		retorno = 0;
+	}
+	return retorno;
+}
+
+
+int informe_clienteConMasPublicacione (sPublicacion* pArrayPublicaciones,int limite, sCliente* pArrayClientes, int limiteClientes)
+{
+	int i;
+	int retorno = -1;
+	int contadorPublicaciones;
+	int mayorPublicaciones;
+	if(pArrayPublicaciones != NULL && pArrayClientes != NULL && limite >0 && limiteClientes > 0)
+	{
+		sPublicacion_imprimirClientesYPublicaciones(pArrayPublicaciones, limite, pArrayClientes, limiteClientes);
+		for ( i = 0; i <limiteClientes; i++)
+		{
+			if(pArrayClientes[i].isEmpty == FALSE)
+			{
+				contadorPublicaciones = sPublicacion_totalidadPublicacionesEnUnCliente
+										(pArrayPublicaciones, limite, pArrayPublicaciones[i].idCliente);
+				if(i == 0)
+				{
+					mayorPublicaciones = contadorPublicaciones;
+				}
+				else if (contadorPublicaciones > mayorPublicaciones)
+				{
+					mayorPublicaciones = contadorPublicaciones;
+				}
+			 }
+		 }
+		printf("\nEl cliente con mayor publicaciones es el ID: %d con %d publicaciones",pArrayPublicaciones[i].idCliente, mayorPublicaciones);
 		retorno = 0;
 	}
 	return retorno;

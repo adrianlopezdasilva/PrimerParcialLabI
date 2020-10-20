@@ -219,7 +219,7 @@ int sPublicacion_imprimirPausados (sPublicacion* pArrayPublicacion, int limite)
 		}
 		if (flagPausados == 0)
 		{
-			printf("No hay ninguna publicacion pausada");
+			printf("\nNo hay ninguna publicacion pausada");
 		}
 
 	}
@@ -245,19 +245,22 @@ int sPublicacion_pausarPublicacion(sPublicacion* pArrayPublicacion, int limite, 
 	{
 		sPublicacion_imprimirActivos(pArrayPublicacion, limite);
 		if(utn_getNumero("\nIngrese el id del Publicacion a pausar:\n","Error",&indiceABuscar,3,0,9999)==0 &&
-		   sPublicacion_buscarIndicePorId(pArrayPublicacion,limite,indiceABuscar,&idAPausar)==0 &&
-		   sPublicacion_imprimirClienteSegunPublicacion(pArrayPublicacion, limite, indiceABuscar, pArrayCliente, limiteCliente) != -1)
+		   sPublicacion_buscarIndicePorId(pArrayPublicacion,limite,indiceABuscar,&idAPausar)==0)
 			{
 				utn_getNumero("\nConfirma pausar publicacion? \n1 = SI \n2 = NO\n","No es una opcion valida",&flagConfirmar,3,1,2);
 				if(flagConfirmar == 1)
 				{
+					printf("\nPausa realizada con exito\n");
 					pArrayPublicacion[idAPausar].estadoPublicacion = PAUSADO;
 					retorno = 0;
 				}
 				else
 				{
-					printf("Operacion abortada");
+					printf("\nOperacion abortada");
 				}
+			} else
+			{
+				printf("\nEse no es un ID valido");
 			}
 		}
 
@@ -283,25 +286,25 @@ int sPublicacion_reanudarPublicacion(sPublicacion* pArrayPublicacion, int limite
 	{
 		if(sPublicacion_imprimirPausados(pArrayPublicacion, limite) == 0)
 		{
-			if(utn_getNumero("\nIngrese el Id de la publicacion a reanudar:\n","Error",&indiceABuscar,3,0,9999)==0 &&
-			   sPublicacion_buscarIndicePorId(pArrayPublicacion,limite,indiceABuscar,&idAReanudar)==0 &&
-			   sPublicacion_ImprimirPublicacionSegunCliente(pArrayPublicacion, limite, indiceABuscar) == 0)
+			if(utn_getNumero("\n\nIngrese el Id de la publicacion a reanudar:\n","Error",&indiceABuscar,3,0,9999)==0 &&
+			   sPublicacion_buscarIndicePorId(pArrayPublicacion,limite,indiceABuscar,&idAReanudar)==0 )
 				{
-					if(utn_getNumero("\nConfirma reanudar publicacion? \n1 = SI \n2 = NO\n","No es una opcion valida",&flagConfirmar,3,1,2))
+					utn_getNumero("\nConfirma reanudar publicacion? \n1 = SI \n2 = NO\n","No es una opcion valida",&flagConfirmar,3,1,2);
 					{
 						if(flagConfirmar == 1 )
 						  {
 							pArrayPublicacion[idAReanudar].estadoPublicacion = ACTIVO;
 							retorno = 0;
-						}
-						else
-						{
-							printf("Operacion abortada");
-						}
-					}
-
+						  }else
+							{
+								printf("\nOperacion abortada");
+							}
+					 }
+				}else
+				{
+					printf("\nEse no es un ID valido");
 				}
-			 }
+		}
 	}
 	return retorno;
 }
@@ -368,35 +371,6 @@ int sPublicacion_ImprimirPublicacionSegunCliente(sPublicacion *pArrayPublicacion
 	}
 	return retorno;
 }
-/**
- * \brief Imprime el cliente al cual pertenece la publicacion
- * \param pArrayPublicacion Puntero al array de publicaciones
- * \param limite Limite del array de publicaciones
- * \param idPublicacion El id que usaremos como referencia para buscar el indice deseado
- * \param pArrayCliente Puntero al array de clientes
- * \param limiteCliente Limite del array clientes
- * \return 0 si OK, -1 si error
- *
- */
-int sPublicacion_imprimirClienteSegunPublicacion(sPublicacion* pArrayPublicacion, int limite, int idPublicacion, sCliente* pArrayCliente, int limiteCliente)
-{
-	int retorno = -1;
-
-	if(pArrayPublicacion != NULL && limite > 0 && idPublicacion>0 && pArrayCliente != NULL && limiteCliente >0)
-	{
-		printf("\nCliente de la publicacion %d", idPublicacion);
-		for(int i = 0; i < limite; i++)
-		{
-			if(pArrayPublicacion[i].idPublicacion == idPublicacion && pArrayPublicacion[i].isEmpty == FALSE )
-			{
-				printf("\nNombre: %s            Apellido:    %s         cuit:     %s       ID: %d",
-						pArrayCliente[i].nombre, pArrayCliente[i].apellido, pArrayCliente[i].cuit, pArrayCliente[i].idCliente);
-			}
-		}
-	}
-
-	return retorno;
-}
 
 /**
  * \brief Cambia el cambpo isEmpty de todas las publicaciones de determinado cliente a TRUE
@@ -420,9 +394,7 @@ static int sPublicacion_borrarTodasLasPublicaciones(sPublicacion* pArrayPublicac
 				retorno = 0;
 			}
 		}
-
 	}
-
 	return retorno;
 }
 

@@ -8,7 +8,6 @@
 #ifndef INFORMES_H_
 #define INFORMES_H_
 
-void menuInformes();
 int informe_clienteConMasPublicaciones(sPublicacion* pArrayPublicaciones,int limite, sCliente* pArrayClientes, int limiteClientes);
 int informe_cantidadPublicacionesPausadas(sPublicacion* pArrayPublicaciones, int limite);
 int informe_cantidadPublicacionesActivas(sPublicacion* pArrayPublicaciones, int limite);
