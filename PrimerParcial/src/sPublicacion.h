@@ -40,5 +40,6 @@ int sPublicacion_cantidadPublicacionesActivas(sPublicacion* pArrayPublicacion,in
 int sPublicacion_imprimirClientesYPublicaciones(sPublicacion *pArrayPublicacion,int limite, sCliente *pArrayCliente,int limiteCliente);
 int publicacion_altaForzada(sPublicacion* pArrayPublicacion, int limite ,int idCliente,int rubro,  char* publicacion);
 int sPublicacion_imprimirClienteSegunPublicacion(sPublicacion *pArrayPublicacion, int limite, int idCliente, sCliente* pArrayCliente, int limiteCliente);
-int sPublicacion_totalidadPublicacionesEnUnCliente(sPublicacion* pArrayPublicaciones,int  limite,int  idCliente);
+int sPublicacion_totalidadPublicacionesEnUnCliente(sPublicacion* pArrayPublicacion,int  limite,int  idCliente);
+int sPublicacion_totalidadPublicacionesEnUnRubro(sPublicacion* pArrayPublicacion,int  limite,int  numeroRubro);
 #endif /* SPUBLICACION_H_ */

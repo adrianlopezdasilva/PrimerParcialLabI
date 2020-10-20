@@ -14,22 +14,64 @@
 /**
  * \brief Compara la cantidad de publicaciones que tiene cada cliente e imprime por pantalla el de mayor numero
  * \param pArrayPublicacion Puntero al array de publicaciones
- * \param limite Acota el numero de publicaciones
+ * \param limite El limite de larray de publicaciones
  * \param pArrayCliente Puntero al array de clientes
- * \param limiteCliente Acota el numero de clientes
+ * \param limiteCliente El limite del array de clientes
  * \return (-1) Error / (0) Ok
  *
  */
-/*
-int informe_clienteConMasAvisos (sPublicacion* pArrayPublicaciones,int limite, sCliente* pArrayClientes, int limiteClientes, int *cantidad)
+
+int informe_clienteConMasPublicaciones (sPublicacion* pArrayPublicaciones,int limite, sCliente* pArrayClientes, int limiteClientes)
 {
 	int i;
+	int flagPrimerNumeroIngresado = 0;
 	int retorno = -1;
 	int contadorPublicaciones;
 	int mayorPublicaciones;
 	if(pArrayPublicaciones != NULL && pArrayClientes != NULL && limite >0 && limiteClientes > 0)
 	{
-		for (i = 0; i <limiteClientes; i++)
+		sCliente_imprimir(pArrayClientes, limiteClientes);
+		for ( i = 0; i <limiteClientes; i++)
+		{
+			if(pArrayClientes[i].isEmpty == FALSE)
+			{
+				contadorPublicaciones = sPublicacion_totalidadPublicacionesEnUnCliente
+										(pArrayPublicaciones, limite, pArrayPublicaciones[i].idCliente);
+				if(flagPrimerNumeroIngresado == 0)
+				{
+					mayorPublicaciones = contadorPublicaciones;
+					flagPrimerNumeroIngresado = 1;
+				}
+				else if (contadorPublicaciones > mayorPublicaciones)
+				{
+					mayorPublicaciones = contadorPublicaciones;
+				}
+			 }
+		 }
+		printf("\nEl cliente con mayor publicaciones es el ID: %d con %d publicaciones",pArrayPublicaciones[i].idCliente, mayorPublicaciones);
+		retorno = 0;
+	}
+	return retorno;
+}
+
+/**
+ * \brief Compara la cantidad de publicaciones que tiene cada cliente e imprime por pantalla el de meor numero
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite El limite de larray de publicaciones
+ * \param pArrayCliente Puntero al array de clientes
+ * \param limiteCliente El limite del array de clientes
+ * \return (-1) Error / (0) Ok
+ *
+ */
+int informe_clienteConMenosPublicaciones (sPublicacion* pArrayPublicaciones,int limite, sCliente* pArrayClientes, int limiteClientes)
+{
+	int i;
+	int retorno = -1;
+	int contadorPublicaciones;
+	int menorPublicaciones;
+	if(pArrayPublicaciones != NULL && pArrayClientes != NULL && limite >0 && limiteClientes > 0)
+	{
+		for ( i = 0; i <limiteClientes; i++)
 		{
 			if(pArrayClientes[i].isEmpty == FALSE)
 			{
@@ -37,26 +79,23 @@ int informe_clienteConMasAvisos (sPublicacion* pArrayPublicaciones,int limite, s
 										(pArrayPublicaciones, limite, pArrayPublicaciones[i].idCliente);
 				if(i == 0)
 				{
-					mayorPublicaciones = contadorPublicaciones;
+					menorPublicaciones = contadorPublicaciones;
 				}
-				else if (contadorPublicaciones >mayorPublicaciones)
+				else if (contadorPublicaciones < menorPublicaciones)
 				{
-					mayorPublicaciones = contadorPublicaciones;
+					menorPublicaciones = contadorPublicaciones;
 				}
-
-
-				retorno = 0;
 			}
 		}
+		printf("\nEl cliente con menor publicacioneses el ID: %d con %d publicaicones",pArrayPublicaciones[i].idCliente, menorPublicaciones);
+		retorno = 0;
 	}
-
 	return retorno;
 }
-*/
 /**
  * \brief Cuenta las cantidas de publicaciones pausadas totatles y lo imprime por pantalla
  * \param pArrayPublicacion Puntero al array de publicaciones
- * \param limite Acota el numero de publicaciones
+ * \param limite El limite del array de publicaciones
  * \return (-1) Error / (0) Ok
  *
  */
@@ -91,7 +130,7 @@ int informe_cantidadPublicacionesPausadas(sPublicacion* pArrayPublicaciones, int
 /**
  * \brief Cuenta las cantidad de publicaciones activas totales y lo imprime por pantalla
  * \param pArrayPublicacion Puntero al array de publicaciones
- * \param limite Acota el numero de publicaciones
+ * \param limite El limite del array de publicaciones
  * \return (-1) Error / (0) Ok
  *
  */
@@ -162,12 +201,13 @@ int informe_cantidadPublicacionesSegunRubro(sPublicacion* pArrayPublicaciones, i
 /**
  * \brief Cuenta las cantidad de publicaciones que tiene un cuit y lo imprime por pantalla
  * \param pArrayPublicacion Puntero al array de publicaciones
- * \param limite Acota el numero de publicaciones
+ * \param limite El limite del array de publicaciones
  * \param pArrayCliente Puntero al array de clientes
- * \param limiteCliente Acota el numero de clientes
+ * \param limiteCliente Ell imite del array de clientes
  * \return (-1) Error / (0) Ok
  *
  */
+/*
 int informe_cantidadPublicacionesSegunCuit(sPublicacion* pArrayPublicaciones, int limite, sCliente* pArrayCliente, int limiteCliente)
 {
 	int retorno = -1;
@@ -178,11 +218,13 @@ int informe_cantidadPublicacionesSegunCuit(sPublicacion* pArrayPublicaciones, in
 	{
 		sCliente_imprimir(pArrayCliente, limiteCliente);
 		if(utn_getString("\nIngrese el cuit del cliente al que quiere investigar:"
-							,"\nEese cuit no existe",auxIndice, 2, SIZECLIENTE)== 0)
+							,"\nEese cuit no existe",auxIndice, 2, SIZECLIENTE)== 0 &&
+			sCliente_buscarClientePorCuit(pArrayCliente, limite,auxIndice,indice)== 0)
 		{
+
 			for(int i = 0; i < limite; i++)
 			{
-				sCliente_buscarClientePorCuit(pArrayCliente, limite,auxIndice,indice);
+
 				if(pArrayCliente[i].cuit == indice && pArrayPublicaciones[i].isEmpty == FALSE)
 				{
 					contador++;
@@ -200,15 +242,15 @@ int informe_cantidadPublicacionesSegunCuit(sPublicacion* pArrayPublicaciones, in
 	}
 	return retorno;
 }
-
+ */
 /**
- * \brief Ordena la lista de rubros de menor a mayor, utilizando el textoAviso como segundo parametro para ordenar en caso de empate
+ * \brief Ordena la lista de rubros de menor a mayor, utilizando el textoAviso como segundo critero para ordenar en caso de empate
  * \param pArrayPublicacion Puntero al array de publicaciones
- * \param limite Acota el numero de publicaciones
+ * \param limite El limite de larray de publicaciones
  * \return (-1) Error / (0) Ok
  *
  */
-int informe_ImprimirListaDeRubrosDemMenorAMayor(sPublicacion* pArrayPublicaciones, int limite)
+int informe_ImprimirListaDeRubrosDeMenorAMayor(sPublicacion* pArrayPublicaciones, int limite)
 {
 	int retorno = -1;
 	int flagConfirmar = 2;
@@ -216,7 +258,6 @@ int informe_ImprimirListaDeRubrosDemMenorAMayor(sPublicacion* pArrayPublicacione
 	if(pArrayPublicaciones != NULL && limite > 0)
 	{
 		sPublicacion_imprimirActivos(pArrayPublicaciones, limite);
-		{
 		utn_getNumero("\nConfirma reordenar segun rubro? \n1 = SI \n2 = NO\n","No es una opcion valida",&flagConfirmar,3,1,2);
 		if(flagConfirmar == 1)
 		{
@@ -256,9 +297,46 @@ int informe_ImprimirListaDeRubrosDemMenorAMayor(sPublicacion* pArrayPublicacione
 		}
 		else
 		{
-		printf("Operacion abortada");
+			printf("Operacion abortada");
 		}
+	}
+	return retorno;
+}
+
+/**
+ * \brief Compara la cantidad de publicaciones que tiene cada rubro e imprime por pantalla el de mayor numero
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite El limite del array de publicaciones
+ * \return (-1) Error / (0) Ok
+ *
+ */
+int informe_rubroConMasPublicaciones(sPublicacion* pArrayPublicaciones,int limite)
+{
+	int i;
+	int retorno = -1;
+	int contadorPublicaciones;
+	int mayorPublicaciones;
+	if(pArrayPublicaciones != NULL  && limite >0)
+	{
+		sPublicacion_imprimirActivos(pArrayPublicaciones, limite);
+		for ( i = 0; i <limite; i++)
+		{
+			if(pArrayPublicaciones[i].isEmpty == FALSE)
+			{
+				contadorPublicaciones = sPublicacion_totalidadPublicacionesEnUnRubro
+										(pArrayPublicaciones, limite, pArrayPublicaciones[i].numeroRubro);
+				if(i == 0)
+				{
+					mayorPublicaciones = contadorPublicaciones;
+				}
+				else if (contadorPublicaciones >mayorPublicaciones)
+				{
+					mayorPublicaciones = contadorPublicaciones;
+				}
+			}
 		}
+		printf("\n\nEl rubro con mayor publicaciones es %d con %d publicaciones",pArrayPublicaciones[i].numeroRubro, mayorPublicaciones);
+		retorno = 0;
 	}
 	return retorno;
 }

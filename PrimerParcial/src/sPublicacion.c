@@ -508,15 +508,23 @@ int publicacion_altaForzada(sPublicacion* pArrayPublicacion, int limite ,int idC
     return retorno;
 }
 
-int sPublicacion_totalidadPublicacionesEnUnCliente(sPublicacion* pArrayPublicaciones,int  limite,int  idCliente)
+/**
+ * \brief Cuenta cuantas publicaciones tiene un cliente y lo pasa con el return
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite Limite del array publicaciones
+ * \param idCliente El ID del cliente al cual se quieren ver sus publicaciones
+ * \return La cantidad de publicaciones que tienene un cliente
+ *
+ */
+int sPublicacion_totalidadPublicacionesEnUnCliente(sPublicacion* pArrayPublicacion,int  limite,int  idCliente)
 {
 	int retorno = 0;
 
-	if(pArrayPublicaciones != NULL && limite > 0 && idCliente >0)
+	if(pArrayPublicacion != NULL && limite > 0 && idCliente >0)
 	{
 		for(int i = 0; i < limite; i++)
 		{
-			if(pArrayPublicaciones[i].isEmpty == FALSE && pArrayPublicaciones[i].idCliente == idCliente)
+			if(pArrayPublicacion[i].isEmpty == FALSE && pArrayPublicacion[i].idCliente == idCliente)
 			{
 				retorno++;
 			}
@@ -525,3 +533,29 @@ int sPublicacion_totalidadPublicacionesEnUnCliente(sPublicacion* pArrayPublicaci
 
 	return retorno;
 }
+/**
+ * \brief Cuenta cuantas publicaciones  tiene un rubro y lo pasa con el return
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite Limite del array publicaciones
+ * \param numeroRubro El rubro al cual se le quieren ver sus publicaciones
+ * \return La cantidad de publicaciones que pertenencen a un mismo rubro
+ *
+ */
+int sPublicacion_totalidadPublicacionesEnUnRubro(sPublicacion* pArrayPublicacion,int  limite,int numeroRubro)
+{
+	int retorno = 0;
+
+	if(pArrayPublicacion != NULL && limite > 0 && numeroRubro >0)
+	{
+		for(int i = 0; i < limite; i++)
+		{
+			if(pArrayPublicacion[i].isEmpty == FALSE && pArrayPublicacion[i].numeroRubro == numeroRubro)
+			{
+				retorno++;
+			}
+		}
+	}
+
+	return retorno;
+}
+

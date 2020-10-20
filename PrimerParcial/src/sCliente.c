@@ -152,7 +152,7 @@ int sCliente_imprimir (sCliente* pArrayCliente, int limite)
 		{
 			if(pArrayCliente[i].isEmpty == FALSE)
 			{
-				printf("\n Nombre:  %s     Apellido:   %s      Cuit:   %s     id:    %d",
+				printf("\n Nombre:  %s     Apellido:   %s      Cuit:   %s     id:    %d\n",
 						pArrayCliente[i].nombre, pArrayCliente[i].apellido,pArrayCliente[i].cuit,pArrayCliente[i].idCliente);
 			}
 		}
@@ -268,12 +268,12 @@ int sCliente_buscarClientePorCuit(sCliente* pArrayCliente, int limite, char cuit
     int retorno = -1;
     int i ;
 
-     if (pArrayCliente != NULL && limite >0 && pIndice != NULL && cuitBuscar >= 0)
+     if (pArrayCliente != NULL && limite >0 && pIndice != NULL && cuitBuscar >0)
      {
     	 for ( i = 0; i<limite; i++)
           {
     		 if(pArrayCliente[i].isEmpty==FALSE &&
-    			pArrayCliente[i].cuit == cuitBuscar)
+    			strcmp(pArrayCliente[i].cuit, &cuitBuscar )==0)
                 {
                  	 *pIndice = i;
                      retorno = 0;

@@ -45,7 +45,7 @@ int main(void)
 	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,3,1,"Urgente ");
 	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,2,"De urgencia");
 	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,4,1,"Con experiencia");
-	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,2,2,"Sin experiencia");
+	publicacion_altaForzada(arrayPublicacion, CANTIDAD_PUBLICACIONES,5,2,"Sin experiencia");
 
 		do
 		{if(utn_getNumero("\n\nMenu de opciones"
@@ -109,32 +109,41 @@ int main(void)
 						case 8:
 							do{
 								if(utn_getNumero("\n\nMenu de informes"
-											"\n1-Cliente con mas avisos "
+											"\n1-Cliente con la mayor cantidad de publicaciones "
 											"\n2-Cantidad de publicaciones pausadas"
-											"\n3-"
+											"\n3-Calcular el rubro con mayor cantidad de publicaciones"
 											"\n4-Ordenar los rubros de menor a mayor"
 											"\n5-Cantidad de publicaciones activas"
-											"\n6-"
+											"\n6-Cliente con la menor cantidad de publicaciones"
 											"\n7-Cantidad de publicaciones segun rubro"
 											"\n8-Cantidad de publicaciones segun cuit"
 											"\n9-Salir\n","Error,opcion invalida\n",&opcionInformes, 4, 1, 9)== 0)
 								{
 									switch(opcionInformes)
 									{
+									case 1:
+										informe_clienteConMasPublicaciones(arrayPublicacion, CANTIDAD_PUBLICACIONES,arrayCliente, CANTIDAD_CLIENTES);
+										break;
 									case 2:
 										informe_cantidadPublicacionesPausadas(arrayPublicacion, CANTIDAD_PUBLICACIONES);
 										break;
+									case 3:
+										informe_rubroConMasPublicaciones(arrayPublicacion, CANTIDAD_PUBLICACIONES);
+										break;
 									case 4:
-										informe_ImprimirListaDeRubrosDemMenorAMayor(arrayPublicacion, CANTIDAD_PUBLICACIONES);
+										informe_ImprimirListaDeRubrosDeMenorAMayor(arrayPublicacion, CANTIDAD_PUBLICACIONES);
 										break;
 									case 5:
 										informe_cantidadPublicacionesActivas(arrayPublicacion, CANTIDAD_PUBLICACIONES);
+										break;
+									case 6:
+										informe_clienteConMenosPublicaciones(arrayPublicacion, CANTIDAD_PUBLICACIONES,arrayCliente, CANTIDAD_CLIENTES);
 										break;
 									case 7:
 										informe_cantidadPublicacionesSegunRubro(arrayPublicacion, CANTIDAD_PUBLICACIONES);
 										break;
 									case 8:
-										 informe_cantidadPublicacionesSegunCuit(arrayPublicacion, CANTIDAD_PUBLICACIONES,arrayCliente, CANTIDAD_CLIENTES);
+										 //informe_cantidadPublicacionesSegunCuit(arrayPublicacion, CANTIDAD_PUBLICACIONES,arrayCliente, CANTIDAD_CLIENTES);
 										 break;
 										}
 								}
