@@ -29,12 +29,8 @@ int sCliente_imprimir (sCliente *pArrayCliente, int limite);
 int sCliente_bajaCliente(sCliente *pArrayCliente, int limite);
 int sCliente_modificar (sCliente *pArrayCliente, int limite);
 int sCliente_buscarIndicePorId (sCliente * pArrayCliente, int limite, int idBuscar,int * pIndice);
-int sCliente_buscarIdPorReferencia(sCliente* pArrayCliente, int limite,int idBuscar, int* pIndice);
 int cliente_altaForzada(sCliente* pArrayCliente, int limite , char * nombre, char * apellido, char * cuit);
 int sCliente_buscarClientePorCuit(sCliente* pArrayCliente, int limite, char cuitBuscar,char* pIndice);
-int sCliente_imprimirUnCliente(sCliente *pArrayCliente, int limite,int idCliente);
-
-
-
+int sPublicacion_ImprimirElClienteDeUnaPublicacion(sCliente *pArrayCliente, int limite,int idCliente);
 
 #endif /* SCLIENTE_H_ */

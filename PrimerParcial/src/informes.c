@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "informes.h"
 #include "utn.h"
 #include "sPublicacion.h"
 #include "sCliente.h"
@@ -35,7 +36,7 @@ int informe_clienteConMasPublicaciones (sPublicacion* pArrayPublicaciones,int li
 			if(pArrayClientes[i].isEmpty == FALSE)
 			{
 				contadorPublicaciones = sPublicacion_totalidadPublicacionesEnUnCliente
-										(pArrayPublicaciones, limite, pArrayPublicaciones[i].idCliente);
+										(pArrayPublicaciones, limite, pArrayClientes[i].idCliente);
 				if(i == 0)
 				{
 					mayorPublicaciones = contadorPublicaciones;
@@ -46,7 +47,8 @@ int informe_clienteConMasPublicaciones (sPublicacion* pArrayPublicaciones,int li
 				}
 			 }
 		 }
-		printf("\nEl cliente con mayor publicaciones es el ID: %d con %d publicaciones",pArrayPublicaciones[i].idCliente, mayorPublicaciones);
+		printf("\nEl cliente con mayor publicaciones es el ID: %d con %d publicaciones"
+				,pArrayClientes[i].idCliente, mayorPublicaciones);
 		retorno = 0;
 	}
 	return retorno;
@@ -140,6 +142,7 @@ int informe_cantidadPublicacionesActivas(sPublicacion* pArrayPublicaciones, int 
 
 	if( pArrayPublicaciones != NULL && limite > 0)
 	{
+		sPublicacion_imprimirActivos(pArrayPublicaciones, limite);
 		for(int i = 0; i < limite; i++)
 		{
 			if (pArrayPublicaciones[i].estadoPublicacion == ACTIVO && pArrayPublicaciones[i].isEmpty == FALSE)
@@ -149,10 +152,10 @@ int informe_cantidadPublicacionesActivas(sPublicacion* pArrayPublicaciones, int 
 		}
 		if(contadorActivos == 0)
 		{
-			printf("No hay ninguna publicacion activa");
+			printf("\nNo hay ninguna publicacion activa\n");
 		}else
 		{
-			printf("La cantidad de publicaciones activas es %d", contadorActivos);
+			printf("\n\nLa cantidad de publicaciones activas es %d\n", contadorActivos);
 
 		}
 		retorno = 0;
@@ -175,8 +178,8 @@ int informe_cantidadPublicacionesSegunRubro(sPublicacion* pArrayPublicaciones, i
 	if(pArrayPublicaciones != NULL && limite > 0)
 	{
 		sPublicacion_imprimirActivos(pArrayPublicaciones, limite);
-		if(utn_getNumero("\nIngrese el numero del rubro que quiere investigar:\nOPCION 1: ADMINISTRACION\nOPCION 2: ATENCION AL CLIENTE\nOPCION 3: OPERARIO\n"
-							,"\nEese rubro no existe",&indice, 2, 1, 3)== 0)
+		if(utn_getNumero("\n\nIngrese el numero del rubro que quiere investigar:\nOPCION 1: ADMINISTRACION\nOPCION 2: ATENCION AL CLIENTE\nOPCION 3: OPERARIO\n\n"
+							,"\nEse rubro no existe\n",&indice, 2, 1, 3)== 0)
 		{
 			for(int i = 0; i < limite; i++)
 			{
@@ -303,7 +306,7 @@ int informe_ImprimirListaDeRubrosDeMenorAMayor(sPublicacion* pArrayPublicaciones
 }
 
 /**
- * \brief Compara la cantidad de publicaciones que tiene cada rubro e imprime por pantalla el de mayor numero
+ * \brief Compara la cantidad de publicaciones que tiene cada rubro e imprime por pantalla el de mayor numero, con sus cantidad
  * \param pArrayPublicacion Puntero al array de publicaciones
  * \param limite El limite del array de publicaciones
  * \return (-1) Error / (0) Ok
@@ -311,31 +314,34 @@ int informe_ImprimirListaDeRubrosDeMenorAMayor(sPublicacion* pArrayPublicaciones
  */
 int informe_rubroConMasPublicaciones(sPublicacion* pArrayPublicaciones,int limite)
 {
-	int i;
 	int retorno = -1;
 	int contadorPublicaciones;
 	int mayorPublicaciones;
+	int auxiliarRubro;
+
 	if(pArrayPublicaciones != NULL  && limite >0)
 	{
 		sPublicacion_imprimirActivos(pArrayPublicaciones, limite);
-		for ( i = 0; i <limite; i++)
+		for (int  i = 0; i <limite; i++)
 		{
-			if(pArrayPublicaciones[i].isEmpty == FALSE)
+			if(pArrayPublicaciones[i].isEmpty == FALSE &&
+				informe__CalcularRubroRepetido(pArrayPublicaciones, limite,
+									pArrayPublicaciones[i].numeroRubro, &contadorPublicaciones) ==0)
 			{
-				contadorPublicaciones = sPublicacion_totalidadPublicacionesEnUnRubro
-										(pArrayPublicaciones, limite, pArrayPublicaciones[i].numeroRubro);
-				if(i == 0)
+
+				if(i == 0 || contadorPublicaciones > mayorPublicaciones)
 				{
 					mayorPublicaciones = contadorPublicaciones;
-				}
-				else if (contadorPublicaciones >mayorPublicaciones)
-				{
-					mayorPublicaciones = contadorPublicaciones;
+					auxiliarRubro = pArrayPublicaciones[i].numeroRubro;
+					retorno = 0;
 				}
 			}
+
 		}
-		printf("\n\nEl rubro con mayor publicaciones es %d con %d publicaciones\n",pArrayPublicaciones[i].numeroRubro, mayorPublicaciones);
-		retorno = 0;
+		printf("\n\nEl rubro con mayor publicaciones es el %d con %d publicaciones\n",auxiliarRubro, contadorPublicaciones);
+	}else
+	{
+		printf("No hay publicaciones cargadas");
 	}
 	return retorno;
 }
@@ -369,5 +375,35 @@ int informe_clienteConMasPublicacione (sPublicacion* pArrayPublicaciones,int lim
 		printf("\nEl cliente con mayor publicaciones es el ID: %d con %d publicaciones",pArrayPublicaciones[i].idCliente, mayorPublicaciones);
 		retorno = 0;
 	}
+	return retorno;
+}
+
+
+/**
+ * \brief Calcula la cantidad de veces que aparece repetido un mismo rubro en la lista de publicaciones
+ * \param pArrayPublicacion Puntero al array de publicaciones
+ * \param limite El campo numeroRubro del array de publicaciones
+ * \param limite El limite del array de publicaciones
+ * \param pResultado El puntero a donde se va a guardar el contador
+ * \return (-1) Error / (0) Ok
+ *
+ */
+int informe__CalcularRubroRepetido(sPublicacion* pArrayPublicaciones, int limite, int numeroRubro, int* pResultado)
+{
+	int retorno = -1;
+	int contador = 0;
+	if (pArrayPublicaciones != NULL && limite > 0 && numeroRubro > 0 && pResultado !=NULL)
+	{
+		for(int i = 0; i < limite; i++)
+		{
+			if(pArrayPublicaciones[i].isEmpty == FALSE && pArrayPublicaciones[i].numeroRubro == numeroRubro)
+			{
+				contador++;
+			}
+		}
+		*pResultado = contador;
+		retorno = 0;
+	}
+
 	return retorno;
 }

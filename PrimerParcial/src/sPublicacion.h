@@ -43,4 +43,5 @@ int sPublicacion_imprimirClienteSegunPublicacion(sPublicacion *pArrayPublicacion
 int sPublicacion_totalidadPublicacionesEnUnCliente(sPublicacion* pArrayPublicacion,int  limite,int  idCliente);
 int sPublicacion_totalidadPublicacionesEnUnRubro(sPublicacion* pArrayPublicacion,int  limite,int  numeroRubro);
 int sPublicacion_darDeBajaClienteYSusPublicaciones(sPublicacion* pArrayPublicacion,int limite, sCliente* pArrayCliente, int limiteCliente);
+int sCliente_buscarIndicePorPublicacion (sPublicacion* pArrayPublicacion, int limite, sCliente* pArrayCliente, int limiteCliente, int idPublicacion,int* pIndice);
 #endif /* SPUBLICACION_H_ */

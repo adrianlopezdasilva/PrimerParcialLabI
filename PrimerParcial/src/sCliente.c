@@ -95,29 +95,6 @@ int sCliente_buscarLibreRef (sCliente* pArrayCliente, int limite, int * pIndice)
 	}
 	return retorno;
 }
-int sCliente_buscarIdPorReferencia(sCliente* pArrayCliente, int limite,int idBuscar, int* pIndice)
-{
-	int retorno = -1;
-	int i ;
-		if (pArrayCliente != NULL && limite >0 && idBuscar >= 0)
-		{
-			for ( i = 0; i<limite; i++)
-			{
-				if(pArrayCliente[i].isEmpty == FALSE &&
-					pArrayCliente[i].idCliente == idBuscar)
-				{
-					*pIndice= i;
-					retorno = 0;
-					break;
-				}
-			}
-		}
-		else
-		{
-			printf("No se encontro el ID deseado");
-		}
-	return retorno;
-}
 /**
  * \brief Da de alta un cliente
  * \param *pArrayCliente Puntero al array de clientes
@@ -318,24 +295,26 @@ int sCliente_buscarClientePorCuit(sCliente* pArrayCliente, int limite, char cuit
  * \return 0 si OK, -1 si error
  *
  */
-int sCliente_imprimirUnCliente(sCliente* pArrayCliente, int limite ,int idCliente)
+int sPublicacion_ImprimirElClienteDeUnaPublicacion(sCliente* pArrayCliente, int limite, int idCliente)
 {
 	int retorno = -1;
-	int indice;
-		if (pArrayCliente!= NULL && limite > 0 && idCliente> 0)
-		{
-			sCliente_buscarIdPorReferencia(pArrayCliente, limite ,idCliente,&indice);
-			printf("\n Nombre: %s       Apellido: %s      Cuit: %s ",
-			pArrayCliente[indice].nombre,pArrayCliente[indice].apellido,pArrayCliente[indice].cuit);
-			retorno = 0;
-		}
-		else
-		{
-			printf("\n ERROR");
-		}
-	return retorno;
-}
 
+	if(pArrayCliente != NULL && limite > 0 && idCliente > 0)
+	{
+		printf("\nPublicaciones del cliente %d", idCliente);
+		for(int i =0 ; i <limite; i++)
+		{
+			if(pArrayCliente[i].isEmpty == FALSE && pArrayCliente[i].idCliente == idCliente)
+			{
+				printf("\n NOMBRE:    %s          APELLIDO: %s    CUIT: %s    ID CLIENT: %d",
+						pArrayCliente[i].nombre, pArrayCliente[i].apellido,
+						pArrayCliente[i].cuit, pArrayCliente[i].idCliente);
+			}
+		}
+		retorno = 0;
+	}
+return retorno;
+}
 /**
  * \brief Carga de forma forzosa el array de clientes
  * \param pArrayCliente Puntero al array de clientes
@@ -368,3 +347,4 @@ int cliente_altaForzada(sCliente* pArrayCliente, int limite , char * nombre, cha
     }
     return retorno;
 }
+

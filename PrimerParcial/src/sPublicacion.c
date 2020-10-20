@@ -239,14 +239,19 @@ int sPublicacion_pausarPublicacion(sPublicacion* pArrayPublicacion, int limite, 
 	int retorno = -1;
 	int idAPausar;
 	int indiceABuscar;
+	//int auxCliente;
 	int flagConfirmar = 2;
 
 	if (pArrayPublicacion != NULL && limite>0 && pArrayCliente != NULL && limiteCliente >0)
 	{
 		sPublicacion_imprimirActivos(pArrayPublicacion, limite);
 		if(utn_getNumero("\nIngrese el id del Publicacion a pausar:\n","Error",&indiceABuscar,3,0,9999)==0 &&
-		   sPublicacion_buscarIndicePorId(pArrayPublicacion,limite,indiceABuscar,&idAPausar)==0)
-			{
+		   sPublicacion_buscarIndicePorId(pArrayPublicacion,limite,indiceABuscar,&idAPausar)==0 )
+		{
+	/* NO FUNCIONA sCliente_buscarIndicePorPublicacion(pArrayPublicacion,limite ,pArrayCliente, limiteCliente, idAPausar, &auxCliente);
+			sPublicacion_ImprimirElClienteDeUnaPublicacion(pArrayCliente, limiteCliente, auxCliente); */
+
+
 				utn_getNumero("\nConfirma pausar publicacion? \n1 = SI \n2 = NO\n","No es una opcion valida",&flagConfirmar,3,1,2);
 				if(flagConfirmar == 1)
 				{
@@ -398,7 +403,6 @@ static int sPublicacion_borrarTodasLasPublicaciones(sPublicacion* pArrayPublicac
 	return retorno;
 }
 
-
 /**
  * \brief Cuenta cuantas publicaciones activas tiene un cliente y lo pasa por referencia
  * \param pArrayPublicacion Puntero al array de publicaciones
@@ -492,7 +496,7 @@ int publicacion_altaForzada(sPublicacion* pArrayPublicacion, int limite ,int idC
  * \param pArrayPublicacion Puntero al array de publicaciones
  * \param limite Limite del array publicaciones
  * \param idCliente El ID del cliente al cual se quieren ver sus publicaciones
- * \return La cantidad de publicaciones que tienene un cliente
+ * \return La cantidad de publicaciones que tiene un cliente
  *
  */
 int sPublicacion_totalidadPublicacionesEnUnCliente(sPublicacion* pArrayPublicacion,int  limite,int  idCliente)
@@ -580,3 +584,33 @@ int sPublicacion_darDeBajaClienteYSusPublicaciones(sPublicacion* pArrayPublicaci
 	}
 	return retorno;
 }
+/*
+int sCliente_buscarIndicePorPublicacion (sPublicacion* pArrayPublicacion, int limite, sCliente* pArrayCliente, int limiteCliente, int idPublicacion,int* pIndice)
+{
+    int retorno = -1;
+    int i;
+    int j;
+
+     if (pArrayCliente != NULL && limite >0 && pIndice != NULL && idPublicacion >= 0 && pArrayPublicacion != NULL && limiteCliente >0)
+     {
+    	 for(i = 0; i < limite; i++)
+    	 {
+    		 if(pArrayPublicacion[i].idPublicacion == idPublicacion && pArrayPublicacion[i].isEmpty == FALSE)
+    		 {
+    			 break;
+    			 for(j = 0; j <limiteCliente; j++)
+    			 {
+    				 if(pArrayCliente[j].idCliente == pArrayPublicacion[i].idCliente && pArrayCliente[j].isEmpty == FALSE)
+    				 {
+    					 *pIndice = j;
+    					 retorno = 0;
+    					 break;
+    				 }
+    			 }
+    		 }
+    	 }
+
+      }
+     return retorno;
+}
+*/
